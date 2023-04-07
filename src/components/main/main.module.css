@@ -1,0 +1,16 @@
+.main {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.mainBox {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 40px;
+  align-items: flex-start;
+  justify-items: space-between;
+  max-height: 70%;
+}
