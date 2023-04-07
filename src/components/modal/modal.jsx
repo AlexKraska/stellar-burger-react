@@ -1,80 +1,42 @@
-import React from "react";
+import ms from './modal.module.css';
 
-// есть компонент Modal — шапка с заголовком и иконкой закрытия;
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { createPortal } from 'react-dom';
+import { useEffect } from 'react';
 
-// содержимое модального окна передается в компонент Modal как children ;
+import ModalOverlay from '../modal-overlay/modal-overlay.jsx';
 
-// есть компонент ModalOverlay — фоновая подложка под модальным окном;
+export default function Modal( { children, title = '', popupCloseHandler } ) {
+    //сюда ведет портал
+    const rootForModal = document.getElementById('react-modals');
 
-// модальное окно с описанием ингредиента открывается при клике по ингредиенту;
-
-// модальное окно с описанием заказа открывается при клике по кнопке «Оформить заказ»;
-
-// модальные окна закрываются при клике на крестик, на ModalOverlay или нажатием на клавишу "Esc";
-
-// логика навешивания и удаления обработчиков события нажатия клавиши "Esc" описана в компонент Modal ;
-
-// в компоненте Modal используется портал;
-
-
-export default class Modal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            visible: false,
+    // добавдение и удаление обработчиков закрытия попапа
+    useEffect(() => {
+        const handleEscapeClose = (evt) => {
+            if (evt.key === 'Escape') {
+                popupCloseHandler(false)
+            };
         };
+        document.addEventListener('keyup', handleEscapeClose);
+        return () => {
+            document.removeEventListener('keyup', handleEscapeClose);
+        };
+    },
+        [popupCloseHandler])
 
-        this.handleOpenModal = this.handleOpenModal.bind(this);
-        this.handleCloseModal = this.handleCloseModal.bind(this);
-    }
-
-    handleOpenModal() {
-        this.setState({ visible: true });
-    }
-
-    handleCloseModal() {
-        this.setState({ visible: false });
-    }
-
-    render() {
-        const modal = (
-            <Modal header="Внимание!" onClose={this.handleCloseModal}>
-                <p>Спасибо за внимание!</p>
-                <p>Открывай меня, если станет скучно :)</p>
-            </Modal>
-        );
-
-        return (
-            <div style={{ overflow: 'hidden' }}>
-                <button onClick={this.handleOpenModal}>Открыть модальное окно</button>
-                {this.state.visible && modal}
-            </div>
-        );
-    }
-}
-
-
-
-export default function DissatisfiedButton() {
-    function handleAgressiveButtonClick() {
-        console.log("Не дави на меня!");
-    }
-
-    function handleAgressiveButtonMouseEnter() {
-        console.log("Вы мне солнце заслонили!");
-    }
-
-    function handleAgressiveButtonMouseLeave() {
-        console.log("Ну вот, теперь слишком жарко!");
-    }
-
-    return (
-        <button
-            onClick={handleAgressiveButtonClick}
-            onMouseEnter={handleAgressiveButtonMouseEnter}
-            onMouseLeave={handleAgressiveButtonMouseLeave}
-        >
-            Поиграй со мной!
-        </button>
+    return createPortal(
+        <>
+            <section className={`${ms.box} pt-15 pr-10 pl-10 pb-15`}>
+                <header className={ms.heading}>
+                    {title && (<h2 className={`${ms.title} text text_type_main-large`}>{title}</h2>)}
+                    <button onClick={() => popupCloseHandler(false)} className={ms.closeBtn}>
+                        <CloseIcon type="primary" />
+                    </button>
+                </header>
+                {children}
+            </section>
+            <ModalOverlay popupCloseHandler={popupCloseHandler} />
+        </>
+        , rootForModal
     );
-}
+};
