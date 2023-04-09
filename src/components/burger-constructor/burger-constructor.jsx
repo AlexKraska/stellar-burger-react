@@ -1,5 +1,5 @@
 // import {useMemo} from 'react';
-import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 //import { composeData } from '../../utils/data';
 import bcs from './burger-constructor.module.css';
 // import { orderedIngredientsId } from '../../utils/data.jsx';
@@ -29,32 +29,41 @@ function BurgerConstructor({ setIsOrderDetailsPopupOpen, ingredientsData }) {
     return (
 
         <div className={`${bcs.constructorBox} pt-25`}>
-            {/* <div className="pr-6"></div> */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }} className='pr-4 pl-4'>
-                <ConstructorElement
+      
+            <div className={`${bcs.mainBox} pr-4 pl-4`}>
+                <div style={{maxWidth: '510px'}}>
+                    <ConstructorElement
                     type="top"
                     isLocked={true}
                     text="Краторная булка N-200i (верх)"
                     price={200}
-                    thumbnail={img}
-                />
-                <ConstructorElement
+                    thumbnail={img} />
+                </div>
+                
+                <div className={bcs.orderItemBox}>
+                    <DragIcon type="primary" />
+                    <ConstructorElement
                     text="Краторная булка N-200i"
                     price={555}
-                    thumbnail={img}
-                />
-                <ConstructorElement
+                    thumbnail={img} />
+                </div>
+
+                <div className={bcs.orderItemBox}>
+                    <DragIcon type="primary" />
+                    <ConstructorElement
                     text="Краторная булка N-200i"
                     price={555}
-                    thumbnail={img}
-                />
+                    thumbnail={img} />
+                </div>
+
+                <div style={{maxWidth: '510px'}}>
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}
                     text="Краторная булка N-200i (низ)"
                     price={200}
-                    thumbnail={img}
-                />
+                    thumbnail={img} />
+                </div>
             </div>
             <div className={`${bcs.total} pb-10`}>
                 <div style={{ display: 'flex', gap: '10px' }}>
