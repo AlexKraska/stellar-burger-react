@@ -38,17 +38,7 @@ export default function BurgerIngredients({ setIsIngredientsPopupOpen, setChosen
         <div className={bis.mainBox}>
             <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
             <nav className='text text_type_main-small'>
-                {/* <ul className={bis.tabs}>
-                    <li className={bis.tabItem} value="bun" active='true' onClick={setCurrent}>
-                        Булки
-                    </li> 
-                    <li className={bis.tabItem} value="sause" active='false' onClick={setCurrent}>
-                        Соусы
-                    </li>
-                    <li className={bis.tabItem} value="main" active='false' onClick={setCurrent}>
-                        Начинки
-                    </li>
-                </ul> */}
+                
                 <div style={{ display: 'flex' }}>
                     <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>Булки</Tab>
 
@@ -61,7 +51,7 @@ export default function BurgerIngredients({ setIsIngredientsPopupOpen, setChosen
 
             <div className={bis.inside}>
 
-                <h2 className='text text_type_main-medium mb-6'>Булки</h2>
+                <h2 className='text text_type_main-medium mt-10'>Булки</h2>
                 <div className={`${bis.menu} pt-6 pb-10 pr-4 pl-4`} name='bun'>
                     {ingredientsData.map((item) => item.type === 'bun' && cardZoneTemplate(item))}
                 </div>
