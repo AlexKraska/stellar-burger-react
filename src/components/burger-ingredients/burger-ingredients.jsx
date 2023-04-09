@@ -1,6 +1,6 @@
 // import React, { useState } from 'react';
 
-import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon, Counter, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useState } from 'react';
 
@@ -38,18 +38,25 @@ export default function BurgerIngredients({ setIsIngredientsPopupOpen, setChosen
         <div className={bis.mainBox}>
             <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
             <nav className='text text_type_main-small'>
-                <ul className={bis.tabs}>
+                {/* <ul className={bis.tabs}>
                     <li className={bis.tabItem} value="bun" active='true' onClick={setCurrent}>
                         Булки
-                    </li>
+                    </li> 
                     <li className={bis.tabItem} value="sause" active='false' onClick={setCurrent}>
                         Соусы
                     </li>
                     <li className={bis.tabItem} value="main" active='false' onClick={setCurrent}>
                         Начинки
                     </li>
-                </ul>
+                </ul> */}
+                <div style={{ display: 'flex' }}>
+                    <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>Булки</Tab>
 
+                    <Tab value="sause" active={current === 'sause'} onClick={setCurrent}>Соусы</Tab>
+
+                    <Tab value="main" active={current === 'main'} onClick={setCurrent}>Начинки</Tab>
+                </div>
+             
             </nav>
 
             <div className={bis.inside}>
