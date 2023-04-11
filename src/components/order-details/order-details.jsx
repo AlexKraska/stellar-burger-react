@@ -3,6 +3,7 @@
 
 import od from './order-details.module.css';
 import yeahFinallyImg from '../../images/yeah-finally.gif';
+import PropTypes from 'prop-types';
 import { orderData } from '../../utils/data.jsx';
 
 
@@ -18,4 +19,11 @@ export default function OrderDetails({ orderData }) {
             <p className="text text_type_main-default text_color_inactive pb-15">Дождитесь готовности на орбитальной станции</p>
         </div>
     )
+};
+
+OrderDetails.propTypes = {
+    orderData: PropTypes.shape({
+        isOrderCooking: PropTypes.bool.isRequired,
+        orderNum: PropTypes.string.isRequired,
+    }).isRequired,
 }

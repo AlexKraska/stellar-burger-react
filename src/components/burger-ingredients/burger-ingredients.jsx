@@ -6,6 +6,8 @@ import { useState } from 'react';
 
 import bis from './burger-ingredients.module.css';
 
+import PropTypes from 'prop-types';
+
 export default function BurgerIngredients({ setIsIngredientsPopupOpen, setChosenIngredient, ingredientsData }) {
 
     const handleIngredientClick = (evt) => {
@@ -38,30 +40,36 @@ export default function BurgerIngredients({ setIsIngredientsPopupOpen, setChosen
         <div className={bis.mainBox}>
             <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
             <nav className='text text_type_main-small'>
-                
-                <div style={{ display: 'flex' }}>
-                    <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>Булки</Tab>
 
-                    <Tab value="sause" active={current === 'sause'} onClick={setCurrent}>Соусы</Tab>
+                <div className={bis.tabBox}>
+                    <a href="#bun" className={bis.a}>
+                        <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>Булки</Tab>
+                    </a>
 
-                    <Tab value="main" active={current === 'main'} onClick={setCurrent}>Начинки</Tab>
+                    <a href="#sauce" className={bis.a}>
+                        <Tab value="sause" active={current === 'sause'} onClick={setCurrent}>Соусы</Tab>
+                    </a>
+
+                    <a href="#main" className={bis.a}>
+                        <Tab value="main" active={current === 'main'} onClick={setCurrent}>Начинки</Tab>
+                    </a>
                 </div>
-             
+
             </nav>
 
             <div className={bis.inside}>
 
-                <h2 className='text text_type_main-medium mt-10'>Булки</h2>
+                <h2 className='text text_type_main-medium mt-10' id='bun'>Булки</h2>
                 <div className={`${bis.menu} pt-6 pb-10 pr-4 pl-4`} name='bun'>
                     {ingredientsData.map((item) => item.type === 'bun' && cardZoneTemplate(item))}
                 </div>
 
-                <h2 className='text text_type_main-medium mb-6'>Соусы</h2>
+                <h2 className='text text_type_main-medium mb-6' id='sauce'>Соусы</h2>
                 <div className={`${bis.menu} pt-6 pb-10 pr-4 pl-4`} name='sauce'>
                     {ingredientsData.map((item) => item.type === 'sauce' && cardZoneTemplate(item))}
                 </div>
 
-                <h2 className='text text_type_main-medium mb-6'>Начинки</h2>
+                <h2 className='text text_type_main-medium mb-6' id='main'>Начинки</h2>
                 <div className={`${bis.menu} pt-6 pb-10 pr-4 pl-4`} name='main'>
                     {ingredientsData.map((item) => item.type === 'main' && cardZoneTemplate(item))}
                 </div>
@@ -70,3 +78,23 @@ export default function BurgerIngredients({ setIsIngredientsPopupOpen, setChosen
 
     )
 }
+
+BurgerIngredients.propTypes = {
+    setIsIngredientsPopupOpen: PropTypes.func.isRequired,
+    setChosenIngredient: PropTypes.func.isRequired,
+    
+    ingredientsData: PropTypes.arrayOf(PropTypes.shape({
+        calories: PropTypes.number.isRequired,
+        carbohydrates: PropTypes.number.isRequired,
+        fat: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        image_large: PropTypes.string.isRequired,
+        image_mobile: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        proteins: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+        __v: PropTypes.number,
+        _id: PropTypes.string.isRequired,
+    })).isRequired,
+};

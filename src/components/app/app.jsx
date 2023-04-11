@@ -5,7 +5,7 @@ import { orderData } from '../../utils/data.jsx';
 
 import AppHeader from '../app-header/app-header.jsx'
 import Main from '../main/main.jsx';
-import IngredientDetails from '../ ingredient-details/ingredient-details.jsx';
+import IngredientDetails from '../ingredient-details/ingredient-details.jsx';
 import OrderDetails from '../order-details/order-details.jsx';
 
 import Modal from '../modal/modal.jsx';
@@ -53,14 +53,14 @@ export default function App() {
             {
               isOrderDetailsPopupOpen && (
                 <Modal popupCloseHandler={setIsOrderDetailsPopupOpen}>
-                  <OrderDetails popupCloseHandler={setIsOrderDetailsPopupOpen} orderData={orderData} />
+                  <OrderDetails orderData={orderData} />
                 </Modal>
               )
             }
             {
               isIngredientsPopupOpen && (
                 <Modal title='Детали ингредиентов' popupCloseHandler={setIsIngredientsPopupOpen}>
-                  <IngredientDetails popupCloseHandler={setIsIngredientsPopupOpen} ingredientsData={chosenIngredient} />
+                  <IngredientDetails ingredientsData={chosenIngredient} />
                 </Modal>
               )
             }

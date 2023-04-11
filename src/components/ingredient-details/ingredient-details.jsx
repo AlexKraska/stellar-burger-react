@@ -1,10 +1,11 @@
 import idd from './ingredient-details.module.css';
+import PropTypes from 'prop-types';
 
-export default function IngredientDetails( {ingredientsData} ) {
-    
+export default function IngredientDetails({ ingredientsData }) {
+
     return (
         <div className={idd.box}>
-            
+
             <img src={ingredientsData && ingredientsData.image} alt={ingredientsData.name} className={idd.image} />
 
             <h3 className="text text_type_main-medium pt-4 pb-8">{ingredientsData && ingredientsData.name}</h3>
@@ -32,4 +33,23 @@ export default function IngredientDetails( {ingredientsData} ) {
             </ul>
         </div>
     )
+};
+
+IngredientDetails.propTypes = {
+    ingredientsData: PropTypes.shape({
+
+        calories: PropTypes.number.isRequired,
+        carbohydrates: PropTypes.number.isRequired,
+        fat: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        image_large: PropTypes.string,
+        image_mobile: PropTypes.string,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        proteins: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+        __v: PropTypes.number,
+        _id: PropTypes.string.isRequired,
+
+    }).isRequired,
 }

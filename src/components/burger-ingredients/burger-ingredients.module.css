@@ -57,14 +57,10 @@
     position: absolute;
 }
 
-.tabs {
-    list-style: none;
+.tabBox {
     display: flex;
-    gap: 140px;
-    margin: 40px auto 40px 40px;
 }
 
-.tabItem:hover {
-    cursor: pointer;
-    opacity: 0.7;
+.a {
+    text-decoration: none;
 }

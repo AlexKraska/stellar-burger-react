@@ -54,3 +54,18 @@
     align-items: center;
     gap: 10px;
 }
+
+.mainIng {
+    display: flex;
+}
+
+.totalInside {
+    display: flex;
+    gap: 10px;
+}
+
+.ingredientsBox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

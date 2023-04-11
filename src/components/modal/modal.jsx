@@ -1,15 +1,15 @@
 import ms from './modal.module.css';
-
+import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { createPortal } from 'react-dom';
 import { useEffect } from 'react';
 
 import ModalOverlay from '../modal-overlay/modal-overlay.jsx';
 
-export default function Modal( { children, title = '', popupCloseHandler } ) {
-    //сюда ведет портал
-    const rootForModal = document.getElementById('react-modals');
+//сюда ведет портал
+const rootForModal = document.getElementById('react-modals');
 
+export default function Modal({ children, title = '', popupCloseHandler }) {
     // добавдение и удаление обработчиков закрытия попапа
     useEffect(() => {
         const handleEscapeClose = (evt) => {
@@ -40,3 +40,9 @@ export default function Modal( { children, title = '', popupCloseHandler } ) {
         , rootForModal
     );
 };
+
+Modal.propTypes = {
+    children: PropTypes.element.isRequired,
+    popupCloseHandler: PropTypes.func.isRequired,
+    title: PropTypes.string,
+}
