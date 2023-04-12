@@ -9,7 +9,7 @@ function BurgerConstructor({ setIsOrderDetailsPopupOpen, ingredientsData }) {
         return (
             <div className={bcs.orderItemBox} key={_id}>
                 <DragIcon type="primary" />
-                <div className={bcs.maxWidth}>
+                <div className={bcs.boxForMain}>
                     <ConstructorElement
                         text={name}
                         price={price}
@@ -26,40 +26,32 @@ function BurgerConstructor({ setIsOrderDetailsPopupOpen, ingredientsData }) {
 
     return (
 
-        <div className={`${bcs.constructorBox} pt-25`}>
-            <div className={`${bcs.mainBox} pr-4 pl-4`}>
+        <div className={`${bcs.constructorBox}`}>
+            <div className={`${bcs.mainBox} pr-4 pl-4 mt-25`}>
 
                 {/* только верхняяя булка */}
                 <div className={bcs.ingredientsBox}>
-                    <div className={bcs.orderItemBox}>
-                        
-                        <div className={bcs.maxWidth}>
-                            <ConstructorElement
-                                type='top'
-                                text='Флюоресцентная булка R2-D3'
-                                price='988'
-                                thumbnail='https://code.s3.yandex.net/react/code/bun-01.png' />
-                        </div>
-                    </div>
+                    <ConstructorElement
+                        type='top'
+                        isLocked={true}
+                        text='Флюоресцентная булка R2-D3 (верх)'
+                        price='988'
+                        thumbnail='https://code.s3.yandex.net/react/code/bun-01.png' />
                 </div>
 
                 {/* внутринности булки */}
                 <div className={bcs.ingredientsBox}>
-                    {ingredientsData.map((item) => item.price > 1000 && ingredientZoneTemplate(item))}
+                    {ingredientsData.map((item) => (item.price > 1255 || item.type === 'sauce') && ingredientZoneTemplate(item))}
                 </div>
 
                 {/* только нижняя булка */}
                 <div className={bcs.ingredientsBox}>
-                    <div className={bcs.orderItemBox}>
-                        
-                        <div className={bcs.maxWidth}>
-                            <ConstructorElement
-                                type='bottom'
-                                text='Флюоресцентная булка R2-D3'
-                                price='988'
-                                thumbnail='https://code.s3.yandex.net/react/code/bun-01.png' />
-                        </div>
-                    </div>
+                    <ConstructorElement
+                        type='bottom'
+                        isLocked={true}
+                        text='Флюоресцентная булка R2-D3 (низ)'
+                        price='988'
+                        thumbnail='https://code.s3.yandex.net/react/code/bun-01.png' />
                 </div>
 
             </div>
@@ -74,7 +66,7 @@ function BurgerConstructor({ setIsOrderDetailsPopupOpen, ingredientsData }) {
                 </div>
                 <Button onClick={handleOrderButtonClick} htmlType="button" type="primary" size="medium">Оформить заказ</Button>
             </div>
-        </div>
+        </div >
 
     )
 }

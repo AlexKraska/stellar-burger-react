@@ -7,6 +7,8 @@
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 720px;
+    margin-top: 110px;
+    padding-top: 110px;
 }
 
 .mainBox {
@@ -18,11 +20,14 @@
 
 .constructorBox::-webkit-scrollbar {
     width: 5px;
+    
     /* ширина scrollbar */
 }
 
 .constructorBox::-webkit-scrollbar-track {
     background: rgb(15, 15, 33);
+    margin: 100px 0 240px;
+
     /* цвет дорожки */
 }
 
@@ -68,4 +73,9 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+}
+
+.boxForMain {
+    width: 536px;
 }
