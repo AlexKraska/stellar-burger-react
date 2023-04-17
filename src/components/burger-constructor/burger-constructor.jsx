@@ -40,7 +40,7 @@ function BurgerConstructor({ setIsOrderDetailsPopupOpen, ingredientsData }) {
                 </div>
 
                 {/* внутринности булки */}
-                <div className={bcs.ingredientsBox}>
+                <div className={`${bcs.ingredientsBox} ${bcs.boxForScroll}`}>
                     {ingredientsData.map((item) => (item.price > 1255 || item.type === 'sauce') && ingredientZoneTemplate(item))}
                 </div>
 

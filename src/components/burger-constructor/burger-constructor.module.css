@@ -7,7 +7,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 720px;
-    margin-top: 110px;
+    margin-top: 0;
     padding-top: 110px;
 }
 
@@ -16,28 +16,7 @@
     flex-direction: column;
     gap: 10px;
     align-items: flex-end;
-}
-
-.constructorBox::-webkit-scrollbar {
-    width: 5px;
-    
-    /* ширина scrollbar */
-}
-
-.constructorBox::-webkit-scrollbar-track {
-    background: rgb(15, 15, 33);
-    margin: 100px 0 240px;
-
-    /* цвет дорожки */
-}
-
-.constructorBox::-webkit-scrollbar-thumb {
-    background-color: rgb(118, 118, 252);
-    /* цвет плашки */
-    border-radius: 20px;
-    /* закругления плашки */
-    border: 3px solid rgb(118, 118, 252);
-    /* padding вокруг плашки */
+    position: relative;
 }
 
 .total {
@@ -73,7 +52,32 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
 
+.boxForScroll {
+    max-height: 440px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.boxForScroll::-webkit-scrollbar {
+    width: 5px;
+    /* ширина scrollbar */
+}
+
+.boxForScroll::-webkit-scrollbar-track {
+    background: rgb(15, 15, 33);
+    margin: 0;
+    /* цвет дорожки */
+}
+
+.boxForScroll::-webkit-scrollbar-thumb {
+    background-color: rgb(118, 118, 252);
+    /* цвет плашки */
+    border-radius: 20px;
+    /* закругления плашки */
+    border: 3px solid rgb(118, 118, 252);
+    /* padding вокруг плашки */
 }
 
 .boxForMain {
