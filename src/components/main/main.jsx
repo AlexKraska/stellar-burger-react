@@ -5,16 +5,16 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
 
 import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
 
-import { ingredientType } from '../../utils/type.js';
-
 export default function Main({
   setIsOrderDetailsPopupOpen, setIsIngredientsPopupOpen,
-  setChosenIngredient, ingredientsData }) {
+  setChosenIngredient, setSelectedIngredient,
+  setOrderData }) {
+
   return (
     <main className={ms.main}>
       <section className={ms.mainBox}>
-        <BurgerIngredients setChosenIngredient={setChosenIngredient} setIsIngredientsPopupOpen={setIsIngredientsPopupOpen} ingredientsData={ingredientsData} />
-        <BurgerConstructor setIsOrderDetailsPopupOpen={setIsOrderDetailsPopupOpen} ingredientsData={ingredientsData} />
+        <BurgerIngredients setChosenIngredient={setChosenIngredient} setSelectedIngredient={setSelectedIngredient} setIsIngredientsPopupOpen={setIsIngredientsPopupOpen} />
+        <BurgerConstructor setOrderData={setOrderData} setIsOrderDetailsPopupOpen={setIsOrderDetailsPopupOpen} />
       </section>
     </main>
   );
@@ -25,5 +25,5 @@ Main.propTypes = {
   setIsIngredientsPopupOpen: PropTypes.func.isRequired,
   setChosenIngredient: PropTypes.func.isRequired,
 
-  ingredientsData: PropTypes.arrayOf(PropTypes.shape( ingredientType )).isRequired,
+  setOrderData: PropTypes.func.isRequired,
 }
