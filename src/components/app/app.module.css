@@ -1,0 +1,8 @@
+.app {
+    min-height: 100vh;
+    background-color: rgba(19, 19, 22, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
