@@ -10,7 +10,7 @@ function BurgerConstructor({ setIsOrderDetailsPopupOpen, setOrderData, setSelect
     const selectedIngredients = useContext(SelectedIngredientContext);
 
     // редюсер для подсчета стоимости нашей корзины с ингредиентами
-    const cart = useMemo(() => selectedIngredients.reduce((accumulator, current) =>
+    const cartTotal = useMemo(() => selectedIngredients.reduce((accumulator, current) =>
         current.type === 'bun' ? accumulator + (current.price * 2) : accumulator + current.price
         , 0)
         , [selectedIngredients]);
@@ -74,7 +74,7 @@ function BurgerConstructor({ setIsOrderDetailsPopupOpen, setOrderData, setSelect
 
             <div className={`${bcs.total} pb-10`}>
                 <div className={bcs.totalInside}>
-                    <p className="text text_type_digits-medium">610</p>
+                    <p className="text text_type_digits-medium">{cartTotal}</p> {/* сюда подставляем мемоизированную итоговую сумму */}
                     <div className={bcs.costyl}>
                         <CurrencyIcon type="primary" />
                     </div>
