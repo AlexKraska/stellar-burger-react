@@ -37,22 +37,6 @@
     list-style: none;
 }
 
-.card {
-    position: relative;
-}
-
-.description {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.info {
-    display: flex;
-    gap: 10px;
-    align-items: baseline;
-}
-
 .counter {
     position: absolute;
 }
