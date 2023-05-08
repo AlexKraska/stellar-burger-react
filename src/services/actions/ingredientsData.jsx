@@ -34,18 +34,18 @@ export function getIngredients() {
                     type: GET_INGREDIENTS_FAILED,
                 })
             })
-        // getOurIngredients.getIngredientsDataObj()
-        //     .then(((data) => {
-        //         console.log(data)
-        //     }
-        //     )).catch((err) => {
-        //         console.log(err)
-        //     })
     }
 }
 
 export const selectIngredient = (ingredient) => ({
     type: SELECT_INGREDIENT,
     payload: ingredient,
-  });
+});
+
+export const addIngredient = (argument) => {
+    return {
+        type: ADD_INGREDIENT,
+        payload: argument,
+    }
+}
 

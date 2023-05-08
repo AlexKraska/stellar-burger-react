@@ -1,87 +1,113 @@
 // Сохраняйте данные в Context и подпишите на него компонент BurgerConstructor
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import bcs from './burger-constructor.module.css';
-import { SelectedIngredientContext } from '../../context/selectedIngredientContext';
-import { useContext, useMemo } from 'react';
-import { orderData } from '../../utils/data';
+import BurgerConstructorItem from '../b-c-item/burgerConstructorItem.jsx';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import {
+    addIngredientInConstructor, deleteIngredientFromConstructor,
+    sortIngredientsInConstructor, addBun, deleteBun
+} from '../../services/actions/constructor';
+import { Order } from '../order/order.jsx';
 
-function BurgerConstructor({ setIsOrderDetailsPopupOpen, setOrderData, setSelectedIngredient }) {
+const BUN = 'bun';
+const SAUCE = 'sauce';
+const MAIN = 'main';
 
-    const selectedIngredients = useContext(SelectedIngredientContext);
+function BurgerConstructor() {
 
-    // редюсер для подсчета стоимости нашей корзины с ингредиентами
-    const cartTotal = useMemo(() => selectedIngredients.reduce((accumulator, current) =>
-        current.type === 'bun' ? accumulator + (current.price * 2) : accumulator + current.price
-        , 0)
-        , [selectedIngredients]);
+    // const selectedIngredients = useSelector(state => state.ingredientsData.selectedIngredients);
+    const dispatch = useDispatch();
+    const { ingredients } = useSelector(state => state.ingredientsData.selectedIngredients);
+    const { ingredientsInConstructor, buns } = useSelector(state => state.burgerConstructor);
 
-    const ingredientZoneTemplate = ({ _id, name, price, image }) => {
-        return (
-            // в дальнейшем мб придется заментиь id в key на index, чтобы учесть тот случай, когда ингредиент дублируется 
-            <div className={bcs.orderItemBox} key={_id}>
-                <DragIcon type="primary" />
-                <div className={bcs.boxForMain}>
-                    <ConstructorElement
-                        text={name}
-                        price={price}
-                        thumbnail={image} />
-                </div>
-            </div>
-        )
+
+    const [{ ingredientType }, constructorDrag] = useDrop({
+        accept: [BUN, SAUCE, MAIN],
+        drop(item) {
+            onDropHandler(item.id);
+        },
+        collect: monitor => ({
+            ingredientType: monitor.getItemType()
+        })
+    })
+
+    const onDropHandler = (ingredientId) => {
+        const constructorItem = ingredients.find(el => el._id === ingredientId);
+        if (ingredientType === BUN) {
+            dispatch(addBun(constructorItem))
+        } else {
+            dispatch(addIngredientInConstructor(constructorItem));
+        }
     }
-    // просмотра деталей инредиента
-    const handleOrderButtonClick = () => {
-        setIsOrderDetailsPopupOpen(true);
+
+    const deleteIngredient = (key) => {
+        if (key !== undefined) {
+            dispatch(deleteIngredientFromConstructor(key))
+        } else {
+            dispatch(deleteBun())
+        }
+    }
+
+    const moveIngredient = (dragIndex, hoverIndex) => {
+        const sortedIngredientsArr = [...ingredientsInConstructor];
+        const dragIndexItem = sortedIngredientsArr[dragIndex];
+        sortedIngredientsArr.splice(dragIndex, 1);
+        sortedIngredientsArr.splice(hoverIndex, 0, dragIndexItem);
+
+        dispatch(sortIngredientsInConstructor(sortedIngredientsArr))
     }
 
     return (
 
-        <div className={`${bcs.constructorBox}`}>
+        <div className={`${bcs.constructorBox}`} ref={constructorDrag}>
             <div className={`${bcs.mainBox} pr-4 pl-4 mt-25`}>
 
-                {/* только верхняяя булка */}
                 <div className={bcs.ingredientsBox}>
                     {
-                        selectedIngredients.length > 0 ? <ConstructorElement
+                        buns !== null ? <ConstructorElement
                             type='top'
                             isLocked={true}
-                            text='Флюоресцентная булка R2-D3 (верх)'
-                            price='988'
-                            thumbnail='https://code.s3.yandex.net/react/code/bun-01.png' />
+                            text={buns.name + ' (верх)'}
+                            price={buns.price}
+                            thumbnail={buns.image}
+                            handleClose={() => deleteIngredient()} />
                             :
-                            <span className="text text_type_main-medium pt-8 pb-15 pr-15">Выберите булку, для начала</span>
+                            <span className="text text_type_main-medium pt-8 pb-15 pr-15">Выберите булку, pleeeeease !</span>
                     }
                 </div>
 
-                {/* внутринности булки */}
-                <div className={`${bcs.ingredientsBox} ${bcs.boxForScroll}`}>
-                    {selectedIngredients.map((item) => (item.price > 1255 || item.type === 'sauce') && ingredientZoneTemplate(item))}
-                </div>
+                {
+                    ingredientsInConstructor.length !== 0 ? <div className={`${bcs.ingredientsBox} ${bcs.boxForScroll}`}>
+                        {ingredientsInConstructor.map((el, index) => {
+                            return (
+                                <BurgerConstructorItem
+                                    key={el.key}
+                                    ingredient={el}
+                                    handleClose={deleteIngredient}
+                                    moveIngredient={moveIngredient}
+                                    index={index} />
+                            );
+                        })}
+                    </div> : <span className="text text_type_main-medium pt-8 pb-15 pr-15">Выберите ингредиенты</span>
+                }
 
-                {/* только нижняя булка */}
                 <div className={bcs.ingredientsBox}>
                     {
-                        selectedIngredients.length > 0 && <ConstructorElement
+                        buns !== null ? <ConstructorElement
                             type='bottom'
                             isLocked={true}
-                            text='Флюоресцентная булка R2-D3 (низ)'
-                            price='988'
-                            thumbnail='https://code.s3.yandex.net/react/code/bun-01.png' />
+                            text={buns.name + ' (верх)'}
+                            price={buns.price}
+                            thumbnail={buns.image}
+                            handleClose={() => deleteIngredient()} />
+                            :
+                            <span className="text text_type_main-medium pt-8 pb-15 pr-15">Выберите булку, pleeeeease !</span>
                     }
                 </div>
-
             </div>
-
-            <div className={`${bcs.total} pb-10`}>
-                <div className={bcs.totalInside}>
-                    <p className="text text_type_digits-medium">{cartTotal}</p> {/* сюда подставляем мемоизированную итоговую сумму */}
-                    <div className={bcs.costyl}>
-                        <CurrencyIcon type="primary" />
-                    </div>
-
-                </div>
-                <Button onClick={handleOrderButtonClick} htmlType="button" type="primary" size="medium">Оформить заказ</Button>
-            </div>
+            <Order />
         </div >
     )
 }

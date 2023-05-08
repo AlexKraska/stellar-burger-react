@@ -8,11 +8,8 @@ import IngredientDetails from '../ingredient-details/ingredient-details.jsx';
 import OrderDetails from '../order-details/order-details.jsx';
 import Modal from '../modal/modal.jsx';
 
-import { OrderContext } from '../../context/orderContext.jsx';
-import { SelectedIngredientContext } from '../../context/selectedIngredientContext.jsx';
-import { ChosenIngredientsContext } from '../../context/chosenIngredientsContext.jsx';
-
 import { getIngredients } from '../../services/actions/ingredientsData.jsx';
+import { changeIngredientsPopupState, changeOrderDetailsPopupState } from '../../services/actions/popup.jsx';
 
 import { Api } from '../../utils/api.jsx';
 import { base_URL } from '../../utils/constants.jsx';
@@ -24,13 +21,13 @@ export default function App() {
 
   const dispatch = useDispatch();
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [orderData, setOrderData] = useState({});
-  const [isIngredientsPopupOpen, setIsIngredientsPopupOpen] = useState(false);
-  const [isOrderDetailsPopupOpen, setIsOrderDetailsPopupOpen] = useState(false);
-  const [chosenIngredient, setChosenIngredient] = useState({ element: {} });
-  const [selectedIngredient, setSelectedIngredient] = useState([]);
+  const isIngredientsPopupOpen = useSelector(state => state.popupState.isIngredientsPopupOpen);
+  const isOrderDetailsPopupOpen = useSelector(state => state.popupState.isOrderDetailsPopupOpen);
+  const isLoading = useSelector(state => state.ingredientsData.ingredientsRequest);
+  const orderData = useSelector(state => state.orderData.orderDetails);
+  
+  const [chosenIngredient, setChosenIngredient] = useState({ element: {} });  // поменять
+  const [selectedIngredient, setSelectedIngredient] = useState([]);           // поменять
 
   // установим данне для контекста, чтобы взять потом отсюда номер заказа
   // useEffect(() => {
@@ -39,47 +36,41 @@ export default function App() {
   //     .catch((err) => { console.log(err) })
   // }, [])
 
+  const popupCloseHandler = () => { // диспатчим нужные нам экшены
+    isOrderDetailsPopupOpen ? dispatch(changeOrderDetailsPopupState(false)) : dispatch(changeIngredientsPopupState(false));
+  }
+
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch])
 
   return (
+        <div className={`${a.app} pb-10`}>
+          {
+            isLoading ? (<h1 className="text text_type_main-large">Загружаем заказики...</h1>) :
+              <>
+                <AppHeader />
+                <Main
+                  setChosenIngredient={setChosenIngredient}
+                  setSelectedIngredient={setSelectedIngredient}
+                />
 
-    <OrderContext.Provider value={orderData}>
-      <SelectedIngredientContext.Provider value={selectedIngredient}>
-        <ChosenIngredientsContext.Provider value={chosenIngredient}>
-          <div className={`${a.app} pb-10`}>
-            {
-              isLoading ? (<h1 className="text text_type_main-large">Загружаем заказики...</h1>) :
-                <>
-                  <AppHeader />
-                  <Main
-                    setChosenIngredient={setChosenIngredient}
-                    setSelectedIngredient={setSelectedIngredient}
-                    setIsOrderDetailsPopupOpen={setIsOrderDetailsPopupOpen}
-                    setIsIngredientsPopupOpen={setIsIngredientsPopupOpen}
-                    setOrderData={setOrderData}
-                  />
-
-                  {
-                    isOrderDetailsPopupOpen && (
-                      <Modal popupCloseHandler={setIsOrderDetailsPopupOpen}>
-                        {orderData && <OrderDetails />}
-                      </Modal>
-                    )
-                  }
-                  {
-                    isIngredientsPopupOpen && (
-                      <Modal title='Детали ингредиентов' popupCloseHandler={setIsIngredientsPopupOpen}>
-                        <IngredientDetails popupCloseHandler={setIsIngredientsPopupOpen} />
-                      </Modal>
-                    )
-                  }
-                </>
-            }
-          </div >
-        </ChosenIngredientsContext.Provider>
-      </SelectedIngredientContext.Provider>
-    </OrderContext.Provider>
+                {
+                  isOrderDetailsPopupOpen && (
+                    <Modal popupCloseHandler={popupCloseHandler}>
+                      {orderData && <OrderDetails />}
+                    </Modal>
+                  )
+                }
+                {
+                  isIngredientsPopupOpen && (
+                    <Modal title='Детали ингредиентов' popupCloseHandler={popupCloseHandler}>
+                      <IngredientDetails popupCloseHandler={popupCloseHandler} />
+                    </Modal>
+                  )
+                }
+              </>
+          }
+        </div >
   );
 };

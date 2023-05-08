@@ -4,7 +4,7 @@ import {
     DELETE_INGREDIENT, DELETE_SELECTED_INGREDIENT, DELETE_ALL_INGREDIENTS
 } from '../actions/ingredientsData.jsx';
 
-const initialState = {
+const defaultState = {
     ingredients: [], // список всех полученных ингредиентов
     selectedIngredient: null,
     selectedIngredients: [], 
@@ -12,7 +12,7 @@ const initialState = {
     ingredientsFailed: false
 }
 
-export const ingredientsDataReducer = (state = initialState, action) => {
+export const ingredientsDataReducer = (state = defaultState, action) => {
     switch (action.type) {
         case GET_INGREDIENTS: {
             return {
@@ -47,17 +47,17 @@ export const ingredientsDataReducer = (state = initialState, action) => {
         case SELECT_INGREDIENT: {
             return {
                 ...state,
-                selectedIngredient: action.payload
+                selectedIngredient: action.payload,
             }
 
         }
-        // case ADD_INGREDIENT: {
-        //     return {
-        //         ...state,
+        case ADD_INGREDIENT: {
+            return {
+                ...state,
+                selectedIngredients: action.payload,
+            }
 
-        //     }
-
-        // }
+        }
         // case DELETE_INGREDIENT: {
         //     return {
         //         ...state,

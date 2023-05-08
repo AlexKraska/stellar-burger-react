@@ -19,6 +19,20 @@
     position: relative;
 }
 
+.total {
+    margin-top: 40px;
+    padding-left: 4px;
+    padding-right: 20px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.costyl svg {
+    width: 36px;
+    height: 36px;
+}
+
 .orderItemBox {
     display: flex;
     align-items: center;
@@ -27,6 +41,11 @@
 
 .mainIng {
     display: flex;
+}
+
+.totalInside {
+    display: flex;
+    gap: 10px;
 }
 
 .ingredientsBox {
