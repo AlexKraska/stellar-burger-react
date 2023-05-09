@@ -11,7 +11,9 @@ export const CardZoneTemplate = ({ card }, { id }) => {
 
     const initialIngredients = useSelector(state => state.ingredientsData.ingredients);
 
-    const { ingredientsInConstructor, bunsCount, buns } = useSelector(store => store.burgerConstructor);
+    const ingredientsInConstructor = useSelector(store => store.burgerConstructor.ingredientsInConstructor);
+    const buns = useSelector(store => store.burgerConstructor.buns);
+    const bunsCount = useSelector(store => store.burgerConstructor.bunsCount);
     const dispatch = useDispatch();
 
     //просмотр деталей ингредиента по двойному клику
@@ -21,6 +23,12 @@ export const CardZoneTemplate = ({ card }, { id }) => {
         dispatch(currentIngredient(foundIngredient));
         dispatch(changeIngredientsPopupState(true));
     };
+
+    const handleIngredientClick = (evt) => {
+        const id = evt.currentTarget.dataset.id;
+        const foundIngredient = initialIngredients.find(ingredient => ingredient._id === id);
+        dispatch(currentIngredient(foundIngredient));
+    }
 
     const [{ isDrag }, dragRef] = useDrag({
         type: card.type,
@@ -33,7 +41,7 @@ export const CardZoneTemplate = ({ card }, { id }) => {
     function getIngredientCount() {
         let counter = 0;
         ingredientsInConstructor.forEach((item) => {
-        
+
             if (id === item._id) {
                 counter += 1;
             }
@@ -46,7 +54,7 @@ export const CardZoneTemplate = ({ card }, { id }) => {
     }
 
     return (
-        <div className={bis.card} ref={dragRef} data-id={_id} key={_id} onDoubleClick={handleIngredientDoubleClick}>
+        <div className={bis.card} ref={dragRef} data-id={_id} key={_id} onClick={handleIngredientClick} onDoubleClick={handleIngredientDoubleClick}>
             <img loading='lazy' className={bis.img} src={image} alt={name} />
             <div className={bis.description}>
                 <div className={bis.info}>

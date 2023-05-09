@@ -3,14 +3,14 @@ import {
     MOVE_INGREDIENT_IN_CONSTRUCTOR, ADD_BUN, DELETE_BUN, CLEAR_CONSTRUCTOR
 } from '../actions/constructor.jsx';
 
-const initialState = {
+const defaultState = {
     buns: null,
     bunsCount: 2, 
     ingredientsInConstructor: [],
     totalPrice: 0,
 }
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = defaultState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT_IN_CONSTRUCTOR: {
             return {

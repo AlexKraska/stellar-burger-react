@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import { Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import bcs from './order.module.css';
+import os from './order.module.css';
 
 import { changeOrderDetailsPopupState } from '../../services/actions/popup.jsx';
 import { createOrder } from '../../services/actions/orderData.jsx';
@@ -10,7 +10,9 @@ import { createOrder } from '../../services/actions/orderData.jsx';
 export const Order = () => {
     const dispatch = useDispatch();
     const [bunPrice, setBunPrice] = useState(0);
-    const { ingredientsInConstructor, buns, bunsCount } = useSelector(store => store.burgerConstructor);
+    const ingredientsInConstructor = useSelector(store => store.burgerConstructor.ingredientsInConstructor);
+    const buns = useSelector(store => store.burgerConstructor.buns);
+    const bunsCount = useSelector(store => store.burgerConstructor.bunsCount);
 
     // просмотра деталей инредиента
     const handleOrderButtonClick = () => {
@@ -35,10 +37,10 @@ export const Order = () => {
     }, [buns])
 
     return (
-        <div className={`${bcs.total} pb-10`}>
-            <div className={bcs.totalInside}>
+        <div className={`${os.total} pb-10`}>
+            <div className={os.totalInside}>
                 <p className="text text_type_digits-medium">{ingredientsPrice + bunPrice}</p>
-                <div className={bcs.costyl}>
+                <div className={os.costyl}>
                     <CurrencyIcon type="primary" />
                 </div>
 

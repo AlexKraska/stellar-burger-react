@@ -17,12 +17,18 @@ const MAIN = 'main';
 function BurgerConstructor() {
 
     const dispatch = useDispatch();
-    const { ingredients } = useSelector(state => state.ingredientsData.selectedIngredients);
-    const { ingredientsInConstructor, buns } = useSelector(state => state.burgerConstructor);
+
+    const ingredients = useSelector(store => store.ingredientsData.ingredients);
+
+    const ingredientsInConstructor = useSelector(store => store.burgerConstructor.ingredientsInConstructor);
+    const buns = useSelector(store => store.burgerConstructor.buns);
+    // const { text, price, image } = buns;
 
     const onDropHandler = (ingredientId) => {
+
         const constructorItem = ingredients.find(el => el._id === ingredientId);
         if (ingredientType === BUN) {
+            console.log(constructorItem);
             dispatch(addBun(constructorItem))
         } else {
             dispatch(addIngredientInConstructor(constructorItem));
@@ -57,55 +63,53 @@ function BurgerConstructor() {
     }
 
     return (
+            <div className={bcs.constructorBox} ref={constructorDrag}>
+                <div className={`${bcs.mainBox} pr-4 pl-4 mt-25`}>
+                    <div className={bcs.ingredientsBox}>
+                        {
+                            buns !== null ? <ConstructorElement
+                                type='top'
+                                isLocked={true}
+                                text={buns.text + ' (верх)'}
+                                price={buns.price}
+                                thumbnail={buns.image}
+                                handleClose={() => deleteIngredient()} />
+                                :
+                                <span className={`${bcs.noIngredientBorder} text text_type_main-medium pt-8 pb-15 pr-15`}>Выберите булку, pleeeeease !</span>
+                        }
+                    </div>
 
-        <div className={bcs.constructorBox} ref={constructorDrag}>
-            <div className={`${bcs.mainBox} pr-4 pl-4 mt-25`}>
-
-                <div className={bcs.ingredientsBox}>
                     {
-                        buns !== null ? <ConstructorElement
-                            type='top'
-                            isLocked={true}
-                            text={buns.name + ' (верх)'}
-                            price={buns.price}
-                            thumbnail={buns.image}
-                            handleClose={() => deleteIngredient()} />
-                            :
-                            <span className={`${bcs.noIngredientBorder} text text_type_main-medium pt-8 pb-15 pr-15`}>Выберите булку, pleeeeease !</span>
+                        ingredientsInConstructor.length !== 0 ? <div className={`${bcs.ingredientsBox} ${bcs.boxForScroll}`}>
+                            {ingredientsInConstructor.map((el, index) => {
+                                return (
+                                    <BurgerConstructorItem
+                                        key={el.key}
+                                        card={el}
+                                        handleClose={deleteIngredient}
+                                        moveIngredient={moveIngredient}
+                                        index={index} />
+                                );
+                            })}
+                        </div> : <span className={`${bcs.noIngredientBorder} text text_type_main-medium pt-8 pb-15 pr-15`}>Выберите ингредиенты</span>
                     }
-                </div>
 
-                {
-                    ingredientsInConstructor.length !== 0 ? <div className={`${bcs.ingredientsBox} ${bcs.boxForScroll}`}>
-                        {ingredientsInConstructor.map((el, index) => {
-                            return (
-                                <BurgerConstructorItem
-                                    key={el.key}
-                                    ingredient={el}
-                                    handleClose={deleteIngredient}
-                                    moveIngredient={moveIngredient}
-                                    index={index} />
-                            );
-                        })}
-                    </div> : <span className="text text_type_main-medium pt-8 pb-15 pr-15">Выберите ингредиенты</span>
-                }
-
-                <div className={bcs.ingredientsBox}>
-                    {
-                        buns !== null ? <ConstructorElement
-                            type='bottom'
-                            isLocked={true}
-                            text={buns.name + ' (верх)'}
-                            price={buns.price}
-                            thumbnail={buns.image}
-                            handleClose={() => deleteIngredient()} />
-                            :
-                            <span className="text text_type_main-medium pt-8 pb-15 pr-15">Выберите булку, pleeeeease !</span>
-                    }
+                    <div className={bcs.ingredientsBox}>
+                        {
+                            buns !== null ? <ConstructorElement
+                                type='bottom'
+                                isLocked={true}
+                                text={buns.name + ' (верх)'}
+                                price={buns.price}
+                                thumbnail={buns.image}
+                                handleClose={() => deleteIngredient()} />
+                                :
+                                <span className={`${bcs.noIngredientBorder} text text_type_main-medium pt-8 pb-15 pr-15`}>Выберите булку, pleeeeease !</span>
+                        }
+                    </div>
                 </div>
-            </div>
-            <Order />
-        </div >
+                <Order />
+            </div >
     )
 }
 

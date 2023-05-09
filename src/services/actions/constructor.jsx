@@ -20,13 +20,13 @@ export const sortIngredientsInConstructor = (sortedArray) => ({
     type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
     ingredients: sortedArray
 })
-export const addBun = (bunObject) => ({
+export const addBun = ( bunObject) => ({
     type: ADD_BUN,
-    bun: bunObject
+    bun: bunObject,
 })
 export const deleteBun = () => ({
-    type: DELETE_BUN
+    type: DELETE_BUN,
 })
 export const clearConstructor = () => ({
-    type: CLEAR_CONSTRUCTOR
+    type: CLEAR_CONSTRUCTOR,
 })

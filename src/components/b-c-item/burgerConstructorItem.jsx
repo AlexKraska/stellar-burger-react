@@ -8,13 +8,13 @@ import PropTypes from 'prop-types';
 
 const ITEM = 'item';
 
-const BurgerConstructorItem = ({ ingredient, index, handleClose, moveIngredient }) => {
+const BurgerConstructorItem = ({ card, index, handleClose, moveIngredient }) => {
     const ref = useRef(null);
     const [{ isDrag }, itemDrag] = useDrag({
         type: ITEM,
         item: () => {
             return {
-                id: ingredient.key,
+                id: card.key,
                 index
             }
         },
@@ -44,24 +44,25 @@ const BurgerConstructorItem = ({ ingredient, index, handleClose, moveIngredient 
             item.index = hoverIndex;
         }
     })
-    const opacity = isDrag ? 0 : 1;
+    const opacityHandler = isDrag ? 0 : 1;
     itemDrag(itemDrop(ref));
 
     return (
-        <li className={style.list_item} style={{ ...style, opacity }} ref={ref} >
+
+        <div className={style.list_item} style={{ ...style, opacityHandler }} ref={ref} >
             <DragIcon type="primary" />
             <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-                handleClose={() => handleClose(ingredient.key)}
+                text={card.name}
+                price={card.price}
+                thumbnail={card.image}
+                handleClose={() => handleClose(card.key)}
             />
-        </li>
+        </div>
     )
 }
 
 BurgerConstructorItem.propTypes = {
-    ingredient: PropTypes.object.isRequired,
+    card: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     handleClose: PropTypes.func.isRequired,
     moveIngredient: PropTypes.func.isRequired

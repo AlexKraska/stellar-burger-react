@@ -1,85 +1,9 @@
-.constructorBox {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    justify-content: center;
-    align-items: flex-end;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 720px;
-    margin-top: 0;
-    padding-top: 110px;
-}
-
-.mainBox {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-end;
-    position: relative;
-}
-
-.total {
-    margin-top: 40px;
-    padding-left: 4px;
-    padding-right: 20px;
-    display: flex;
-    gap: 40px;
+.list_item {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    column-gap: 8px;
     align-items: center;
-}
-
-.costyl svg {
-    width: 36px;
-    height: 36px;
-}
-
-.orderItemBox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.mainIng {
-    display: flex;
-}
-
-.totalInside {
-    display: flex;
-    gap: 10px;
-}
-
-.ingredientsBox {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.boxForScroll {
-    max-height: 440px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
-.boxForScroll::-webkit-scrollbar {
-    width: 5px;
-    /* ширина scrollbar */
-}
-
-.boxForScroll::-webkit-scrollbar-track {
-    background: rgb(15, 15, 33);
-    margin: 0;
-    /* цвет дорожки */
-}
-
-.boxForScroll::-webkit-scrollbar-thumb {
-    background-color: rgb(118, 118, 252);
-    /* цвет плашки */
-    border-radius: 20px;
-    /* закругления плашки */
-    border: 3px solid rgb(118, 118, 252);
-    /* padding вокруг плашки */
-}
-
-.boxForMain {
-    width: 536px;
+    width: 100%;
+    cursor: move;
+    opacity: 1;
 }

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import bis from './burger-ingredients.module.css';
 
 import { useInView } from 'react-intersection-observer';
-import { CardZoneTemplate } from '../cardZoneTemplate/cardZoneTemplate';
+import { CardZoneTemplate } from '../cardZoneTemplate/cardZoneTemplate.jsx';
 
 export default function BurgerIngredients() {
 
