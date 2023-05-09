@@ -1,13 +1,11 @@
 import {
-    GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS,
-    SORT_INGREDIENTS, SELECT_INGREDIENT, ADD_INGREDIENT,
-    DELETE_INGREDIENT, DELETE_SELECTED_INGREDIENT, DELETE_ALL_INGREDIENTS
+    GET_INGREDIENTS, GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS, CURRENT_INGREDIENT
 } from '../actions/ingredientsData.jsx';
 
 const defaultState = {
     ingredients: [], // список всех полученных ингредиентов
-    selectedIngredient: null,
-    selectedIngredients: [], 
+    currentIngredient: null,
+    selectedIngredients: [],
     ingredientsRequest: false,
     ingredientsFailed: false
 }
@@ -37,47 +35,11 @@ export const ingredientsDataReducer = (state = defaultState, action) => {
             }
 
         }
-        // case SORT_INGREDIENTS: {
-        //     return {
-        //         ...state,
-
-        //     }
-
-        // }
-        case SELECT_INGREDIENT: {
+        case CURRENT_INGREDIENT: {
             return {
                 ...state,
-                selectedIngredient: action.payload,
+                currentIngredient: action.currentIngredient,
             }
-
-        }
-        case ADD_INGREDIENT: {
-            return {
-                ...state,
-                selectedIngredients: action.payload,
-            }
-
-        }
-        // case DELETE_INGREDIENT: {
-        //     return {
-        //         ...state,
-
-        //     }
-
-        // }
-        // case DELETE_SELECTED_INGREDIENT: {
-        //     return {
-        //         ...state,
-
-        //     }
-
-        // }
-        case DELETE_ALL_INGREDIENTS: {
-            return {
-                ...state,
-                ingredients: [],
-            }
-
         }
         default: {
             return state;

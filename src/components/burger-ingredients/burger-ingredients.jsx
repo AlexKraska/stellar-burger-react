@@ -11,8 +11,6 @@ export default function BurgerIngredients() {
 
     const initialIngredients = useSelector(state => state.ingredientsData.ingredients);
 
-    // const handleIngredientDragNDrop = () => { } функция которая будет нужна для перетаскивания ингредентов
-
     // логика навигации по ингредиентам -----------------------------------
     const [current, setCurrent] = useState('bun');
     const [bun, bunInView, b] = useInView({ threshold: 0.7 });
@@ -50,17 +48,17 @@ export default function BurgerIngredients() {
             <div className={bis.inside}>
                 <h2 className='text text_type_main-medium mt-10' id='bun'>Булки</h2>
                 <div ref={bun} className={`${bis.menu} pt-6 pb-10 pr-4 pl-4`} name='bun'>
-                    {initialIngredients.map((item) => item.type === 'bun' && <CardZoneTemplate key={item._id} card={item} />)}
+                    {initialIngredients.map((item) => item.type === 'bun' && <CardZoneTemplate key={item._id} card={item} id={item._id} />)}
                 </div>
 
                 <h2 className='text text_type_main-medium mb-6' id='sauce'>Соусы</h2>
                 <div ref={sauce} className={`${bis.menu} pt-6 pb-10 pr-4 pl-4`} name='sauce'>
-                    {initialIngredients.map((item) => item.type === 'sauce' && <CardZoneTemplate key={item._id} card={item} />)}
+                    {initialIngredients.map((item) => item.type === 'sauce' && <CardZoneTemplate key={item._id} card={item} id={item._id} />)}
                 </div>
 
                 <h2 className='text text_type_main-medium mb-6' id='main'>Начинки</h2>
                 <div ref={main} className={`${bis.menu} pt-6 pb-10 pr-4 pl-4`} name='main'>
-                    {initialIngredients.map((item) => item.type === 'main' && <CardZoneTemplate key={item._id} card={item} />)}
+                    {initialIngredients.map((item) => item.type === 'main' && <CardZoneTemplate key={item._id} card={item} id={item._id} />)}
                 </div>
             </div>
         </div>

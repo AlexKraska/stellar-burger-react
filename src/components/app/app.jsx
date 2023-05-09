@@ -1,5 +1,5 @@
 import a from './app.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import AppHeader from '../app-header/app-header.jsx'
@@ -25,16 +25,6 @@ export default function App() {
   const isOrderDetailsPopupOpen = useSelector(state => state.popupState.isOrderDetailsPopupOpen);
   const isLoading = useSelector(state => state.ingredientsData.ingredientsRequest);
   const orderData = useSelector(state => state.orderData.orderDetails);
-  
-  const [chosenIngredient, setChosenIngredient] = useState({ element: {} });  // поменять
-  const [selectedIngredient, setSelectedIngredient] = useState([]);           // поменять
-
-  // установим данне для контекста, чтобы взять потом отсюда номер заказа
-  // useEffect(() => {
-  //   getOurIngredients.sendIngredients()
-  //     .then((data) => setOrderData(data))
-  //     .catch((err) => { console.log(err) })
-  // }, [])
 
   const popupCloseHandler = () => { // диспатчим нужные нам экшены
     isOrderDetailsPopupOpen ? dispatch(changeOrderDetailsPopupState(false)) : dispatch(changeIngredientsPopupState(false));
@@ -45,32 +35,28 @@ export default function App() {
   }, [dispatch])
 
   return (
-        <div className={`${a.app} pb-10`}>
-          {
-            isLoading ? (<h1 className="text text_type_main-large">Загружаем заказики...</h1>) :
-              <>
-                <AppHeader />
-                <Main
-                  setChosenIngredient={setChosenIngredient}
-                  setSelectedIngredient={setSelectedIngredient}
-                />
-
-                {
-                  isOrderDetailsPopupOpen && (
-                    <Modal popupCloseHandler={popupCloseHandler}>
-                      {orderData && <OrderDetails />}
-                    </Modal>
-                  )
-                }
-                {
-                  isIngredientsPopupOpen && (
-                    <Modal title='Детали ингредиентов' popupCloseHandler={popupCloseHandler}>
-                      <IngredientDetails popupCloseHandler={popupCloseHandler} />
-                    </Modal>
-                  )
-                }
-              </>
-          }
-        </div >
+    <div className={`${a.app} pb-10`}>
+      {
+        isLoading ? (<h1 className="text text_type_main-large">Загружаем заказики...</h1>) :
+          <>
+            <AppHeader />
+            <Main />
+            {
+              isOrderDetailsPopupOpen && (
+                <Modal popupCloseHandler={popupCloseHandler}>
+                  {orderData && <OrderDetails />}
+                </Modal>
+              )
+            }
+            {
+              isIngredientsPopupOpen && (
+                <Modal title='Детали ингредиентов' popupCloseHandler={popupCloseHandler}>
+                  <IngredientDetails popupCloseHandler={popupCloseHandler} />
+                </Modal>
+              )
+            }
+          </>
+      }
+    </div >
   );
 };

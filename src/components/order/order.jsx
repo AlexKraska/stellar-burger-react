@@ -17,7 +17,7 @@ export const Order = () => {
         const mainIngredientsArray = ingredientsInConstructor.map(item => {
             return item._id
         })
-        const orderArray = [...mainIngredientsArray, buns._id, buns._id];
+        const orderArray = [...mainIngredientsArray, buns.id, buns.id];
         dispatch(createOrder(orderArray))
         dispatch(changeOrderDetailsPopupState(true));
     }
@@ -43,7 +43,7 @@ export const Order = () => {
                 </div>
 
             </div>
-            <Button onClick={handleOrderButtonClick} htmlType="button" type="primary" size="medium">Оформить заказ</Button>
+            <Button onClick={() => handleOrderButtonClick()} htmlType="button" type="primary" size="medium">Оформить заказ</Button>
         </div>
     )
 }  

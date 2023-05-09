@@ -1,15 +1,13 @@
 import bis from './cardZoneTemplate.module.css';
 import { useSelector, useDispatch } from "react-redux";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import { selectIngredient } from '../../services/actions/ingredientsData';
 import { changeIngredientsPopupState } from '../../services/actions/popup';
 import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
+import { currentIngredient } from '../../services/actions/ingredientsData.jsx';
 
-export const CardZoneTemplate = ({ card }) => {
+export const CardZoneTemplate = ({ card }, { id }) => {
     const { _id, name, price, image } = card;
-
-    const selectedIngredients = useSelector(state => state.ingredientsData.selectedIngredients);
 
     const initialIngredients = useSelector(state => state.ingredientsData.ingredients);
 
@@ -20,13 +18,13 @@ export const CardZoneTemplate = ({ card }) => {
     const handleIngredientDoubleClick = (evt) => {
         const id = evt.currentTarget.dataset.id;
         const foundIngredient = initialIngredients.find(ingredient => ingredient._id === id);
-        dispatch(selectIngredient(foundIngredient));
+        dispatch(currentIngredient(foundIngredient));
         dispatch(changeIngredientsPopupState(true));
     };
 
-    const [{ isDrag }, drag] = useDrag({
+    const [{ isDrag }, dragRef] = useDrag({
         type: card.type,
-        item: { _id },
+        item: { id },
         collect: monitor => ({
             isDrag: monitor.isDragging()
         })
@@ -35,7 +33,8 @@ export const CardZoneTemplate = ({ card }) => {
     function getIngredientCount() {
         let counter = 0;
         ingredientsInConstructor.forEach((item) => {
-            if (_id === item._id) {
+        
+            if (id === item._id) {
                 counter += 1;
             }
             if (buns !== null && card._id === buns._id) {
@@ -47,7 +46,7 @@ export const CardZoneTemplate = ({ card }) => {
     }
 
     return (
-        <div className={bis.card} data-id={_id} key={_id} onDoubleClick={handleIngredientDoubleClick}>
+        <div className={bis.card} ref={dragRef} data-id={_id} key={_id} onDoubleClick={handleIngredientDoubleClick}>
             <img loading='lazy' className={bis.img} src={image} alt={name} />
             <div className={bis.description}>
                 <div className={bis.info}>
