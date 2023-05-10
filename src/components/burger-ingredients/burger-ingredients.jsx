@@ -45,6 +45,7 @@ export default function BurgerIngredients() {
                     </a>
                 </div>
             </nav>
+
             <div className={bis.inside}>
                 <h2 className='text text_type_main-medium mt-10' id='bun'>Булки</h2>
                 <div ref={bun} className={`${bis.menu} pt-6 pb-10 pr-4 pl-4`} name='bun'>

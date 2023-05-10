@@ -17,15 +17,17 @@ export const Order = () => {
     // просмотра деталей инредиента
     const handleOrderButtonClick = () => {
         const mainIngredientsArray = ingredientsInConstructor.map(item => {
-            return item._id
+            return item.card._id
         })
-        const orderArray = [...mainIngredientsArray, buns.id, buns.id];
-        dispatch(createOrder(orderArray))
+        const orderArray = [...mainIngredientsArray, buns._id, buns._id];
+
+        dispatch(createOrder(orderArray));
         dispatch(changeOrderDetailsPopupState(true));
     }
 
     const ingredientsPrice = ingredientsInConstructor.reduce((sum, elem) => {
-        return elem.price + sum;
+        //console.log(elem.card.price);
+        return elem.card.price + sum;
     }, 0);
 
     useEffect(() => {
@@ -34,7 +36,7 @@ export const Order = () => {
         } else {
             setBunPrice(0);
         }
-    }, [buns])
+    }, [buns]);
 
     return (
         <div className={`${os.total} pb-10`}>

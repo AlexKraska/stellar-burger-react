@@ -5,7 +5,7 @@ import {
 
 const defaultState = {
     buns: null,
-    bunsCount: 2, 
+    bunsCount: 2,
     ingredientsInConstructor: [],
     totalPrice: 0,
 }
@@ -18,8 +18,8 @@ export const constructorReducer = (state = defaultState, action) => {
                 ingredientsInConstructor: [
                     ...state.ingredientsInConstructor,
                     {
-                        ...action.constructorItem,
-                        key: action.key
+                    card: action.card,
+                    key: action.key,
                     }
                 ]
             }

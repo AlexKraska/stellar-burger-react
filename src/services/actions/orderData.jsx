@@ -1,4 +1,5 @@
 import { getOurIngredients } from "../../components/app/app.jsx";
+import { clearConstructor } from "./constructor.jsx";
 
 export const GET_ORDER_DATA = 'GET_ORDER_DATA';
 export const GET_ORDER_DATA_SUCCESS = 'GET_ORDER_DATA_SUCCESS';
@@ -28,15 +29,15 @@ export function createOrder(ingredients) {
         getOurIngredients.sendIngredients(ingredients)
             .then(res => {
                 if (res && res.success) {
-                    dispatch(setOrderDataLoadingSuccess(res.order.number))
-                    dispatch(deleteOrderData())
+                    console.log(dispatch(setOrderDataLoadingSuccess(res.order.number)))
+                    dispatch(clearConstructor())
                 } else {
                     dispatch(setOrderDataLoadingFailed())
                 }
             })
             .catch(err => {
                 dispatch(setOrderDataLoadingFailed())
-                console.log(err)
+                console.log(`Что ж, ошибка тут такая ${err}`)
             })
     }
 }

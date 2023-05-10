@@ -14,7 +14,6 @@ import { changeIngredientsPopupState, changeOrderDetailsPopupState } from '../..
 import { Api } from '../../utils/api.jsx';
 import { base_URL } from '../../utils/constants.jsx';
 
-// Запрос к API должен происходить при монтировании компонента App.
 export const getOurIngredients = new Api(base_URL);
 
 export default function App() {
@@ -24,9 +23,9 @@ export default function App() {
   const isIngredientsPopupOpen = useSelector(state => state.popupState.isIngredientsPopupOpen);
   const isOrderDetailsPopupOpen = useSelector(state => state.popupState.isOrderDetailsPopupOpen);
   const isLoading = useSelector(state => state.ingredientsData.ingredientsRequest);
-  const orderData = useSelector(state => state.orderData.orderDetails);
+  const orderRequest = useSelector(state => state.orderData.orderRequest);
 
-  const popupCloseHandler = () => { // диспатчим нужные нам экшены
+  const popupCloseHandler = () => { // закроем тот попап, который открыт
     isOrderDetailsPopupOpen ? dispatch(changeOrderDetailsPopupState(false)) : dispatch(changeIngredientsPopupState(false));
   }
 
@@ -36,17 +35,19 @@ export default function App() {
 
   return (
     <div className={`${a.app} pb-10`}>
-      {
+      { // отобразим прелоадер
         isLoading ? (<h1 className="text text_type_main-large">Загружаем заказики...</h1>) :
           <>
             <AppHeader />
             <Main />
             {
-              isOrderDetailsPopupOpen && (
-                <Modal popupCloseHandler={popupCloseHandler}>
-                  {orderData && <OrderDetails />}
-                </Modal>
-              )
+              !orderRequest ? (
+                isOrderDetailsPopupOpen && (
+                  <Modal popupCloseHandler={popupCloseHandler}>
+                    <OrderDetails />
+                  </Modal>
+                )
+              ) : (<h1 className="text text_type_main-large">Еще совсем чуть-чуть...</h1>)
             }
             {
               isIngredientsPopupOpen && (

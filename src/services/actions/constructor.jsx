@@ -7,9 +7,9 @@ export const ADD_BUN = 'ADD_BUN';
 export const DELETE_BUN = 'DELETE_BUN';
 export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 
-export const addIngredientInConstructor = (constructorItem) => ({
+export const addIngredientInConstructor = (card) => ({
     type: ADD_INGREDIENT_IN_CONSTRUCTOR,
-    constructorItem,
+    card: card,
     key: generateKey(),
 })
 export const deleteIngredientFromConstructor = (key) => ({
@@ -18,9 +18,9 @@ export const deleteIngredientFromConstructor = (key) => ({
 })
 export const sortIngredientsInConstructor = (sortedArray) => ({
     type: MOVE_INGREDIENT_IN_CONSTRUCTOR,
-    ingredients: sortedArray
+    ingredients: sortedArray,
 })
-export const addBun = ( bunObject) => ({
+export const addBun = ( bunObject ) => ({
     type: ADD_BUN,
     bun: bunObject,
 })

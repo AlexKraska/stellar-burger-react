@@ -5,23 +5,25 @@ import { useDrag, useDrop } from 'react-dnd';
 import style from './burgerConstructorItem.module.css';
 import { useRef } from "react";
 import PropTypes from 'prop-types';
-
-const ITEM = 'item';
+import { ITEM } from "../../utils/constants.jsx";
 
 const BurgerConstructorItem = ({ card, index, handleClose, moveIngredient }) => {
+
     const ref = useRef(null);
+
     const [{ isDrag }, itemDrag] = useDrag({
         type: ITEM,
         item: () => {
             return {
-                id: card.key,
+                _id: card.key,
                 index
             }
         },
         collect: monitor => ({
             isDrag: monitor.isDragging()
         })
-    })
+    });
+
     const [collectedProps, itemDrop] = useDrop({
         accept: ITEM,
         hover: (item, monitor) => {
@@ -44,7 +46,9 @@ const BurgerConstructorItem = ({ card, index, handleClose, moveIngredient }) => 
             item.index = hoverIndex;
         }
     })
+
     const opacityHandler = isDrag ? 0 : 1;
+
     itemDrag(itemDrop(ref));
 
     return (
@@ -52,20 +56,20 @@ const BurgerConstructorItem = ({ card, index, handleClose, moveIngredient }) => 
         <div className={style.list_item} style={{ ...style, opacityHandler }} ref={ref} >
             <DragIcon type="primary" />
             <ConstructorElement
-                text={card.name}
-                price={card.price}
-                thumbnail={card.image}
-                handleClose={() => handleClose(card.key)}
+                text={card.card.name}
+                price={card.card.price}
+                thumbnail={card.card.image}
+                handleClose={() => handleClose(card.card.key)}
             />
         </div>
     )
-}
+};
 
 BurgerConstructorItem.propTypes = {
     card: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     handleClose: PropTypes.func.isRequired,
     moveIngredient: PropTypes.func.isRequired
-}
+};
 
 export default BurgerConstructorItem;
