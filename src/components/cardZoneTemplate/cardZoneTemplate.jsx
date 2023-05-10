@@ -28,15 +28,20 @@ export const CardZoneTemplate = ({ card }) => {
         })
     });
 
-    const ingredientCountHandler = useEffect(() => {
+    function getIngredientCount() {
         let counter = 0;
-        ingredientsInConstructor.forEach((item) => {
-            console.log(item);
+        ingredientsInConstructor.forEach(item => {
+            if (card._id === item.card._id) {
+                counter += 1;
+            }
+        });
 
-            if (card._id === item.card._id) { counter += 1; }
-            if (buns !== null && card._id === buns._id) { return bunsCount; } else { return counter }
-        })
-    }, [ingredientsInConstructor]);
+        if (buns !== null && card._id === buns._id) {
+            return bunsCount;
+        } else {
+            return counter;
+        }
+    }
 
     return (
         <div className={bis.card} ref={dragRef} data-id={card._id} key={card._id} onClick={handleIngredientClick} >
@@ -48,7 +53,10 @@ export const CardZoneTemplate = ({ card }) => {
                 </div>
                 <h3 className={bis.cardName}>{card.name}</h3>
             </div>
-            <Counter count={ingredientCountHandler} size="default" extraClass="m-1" />
+            {
+                getIngredientCount() !== 0 ? (<Counter count={getIngredientCount()} size="default" extraClass="m-1" />) : null
+
+            }
         </div>
     )
 }
