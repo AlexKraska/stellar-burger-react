@@ -19,10 +19,7 @@ function BurgerConstructor() {
     const buns = useSelector(store => store.burgerConstructor.buns);
 
     const onDropHandler = (ingredientId) => {
-        //console.log(ingredientId);
         const constructorItem = ingredients.find(el => el._id === ingredientId);
-        //console.log(constructorItem);
-        // console.log(ingredients);
         if (ingredientType === BUN) {
             dispatch(addBun(constructorItem))
         } else {
@@ -33,7 +30,6 @@ function BurgerConstructor() {
     const [{ ingredientType }, constructorDrag] = useDrop({
         accept: [BUN, SAUCE, MAIN],
         drop(item) {
-            //console.log(item);
             onDropHandler(item._id);
         },
         collect: monitor => ({
@@ -83,7 +79,7 @@ function BurgerConstructor() {
                                 <BurgerConstructorItem
                                     key={el.key}
                                     card={el}
-                                    handleClose={deleteIngredient}
+                                    handleClose={() => deleteIngredient(el.key)}
                                     moveIngredient={moveIngredient}
                                     index={index}
                                 />

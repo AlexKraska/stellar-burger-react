@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 export default function OrderDetails() {
 
     const orderDetails = useSelector(store => store.orderData.orderDetails);
-    console.log(OrderDetails);
 
     return (
         <div className={od.box}>

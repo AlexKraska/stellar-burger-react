@@ -6,10 +6,11 @@ import os from './order.module.css';
 import { changeOrderDetailsPopupState } from '../../services/actions/popup.jsx';
 import { createOrder } from '../../services/actions/orderData.jsx';
 
-
 export const Order = () => {
     const dispatch = useDispatch();
+
     const [bunPrice, setBunPrice] = useState(0);
+
     const ingredientsInConstructor = useSelector(store => store.burgerConstructor.ingredientsInConstructor);
     const buns = useSelector(store => store.burgerConstructor.buns);
     const bunsCount = useSelector(store => store.burgerConstructor.bunsCount);
@@ -26,7 +27,6 @@ export const Order = () => {
     }
 
     const ingredientsPrice = ingredientsInConstructor.reduce((sum, elem) => {
-        //console.log(elem.card.price);
         return elem.card.price + sum;
     }, 0);
 

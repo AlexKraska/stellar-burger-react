@@ -47,7 +47,7 @@ export default function App() {
                     <OrderDetails />
                   </Modal>
                 )
-              ) : (<h1 className="text text_type_main-large">Еще совсем чуть-чуть...</h1>)
+              ) : (<h1 className="text text_type_main-large mb-20">Еще совсем чуть-чуть...</h1>)
             }
             {
               isIngredientsPopupOpen && (
