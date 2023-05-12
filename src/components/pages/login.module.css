@@ -1,0 +1,67 @@
+.loginBox {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 0.5px;
+}
+
+.heading {
+    font-size: 24px;
+    align-self: center;
+    margin: 0;
+    font-style: normal;
+    font-weight: normal;
+    margin-bottom: 24px;
+    letter-spacing: 1.5px;
+
+}
+
+.inutBox {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.input {
+    position: relative;
+    padding: 5px auto 5px 8px;
+    font-size: 18px;
+}
+
+.passwordEye {
+    position: absolute;
+}
+
+input::placeholder {
+    font-size: 18px;
+
+}
+
+.btnBox {
+    margin-top: 24px;
+    margin-bottom: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.txtBox {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.text {
+    margin: 0 auto;
+    font-size: 18px;
+    font-weight: normal;
+    color: rgb(168, 179, 179);
+}
+
+.textLink {
+    color: rgb(78, 78, 223);
+}

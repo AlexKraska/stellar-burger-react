@@ -14,6 +14,9 @@ import { changeIngredientsPopupState, changeOrderDetailsPopupState } from '../..
 import { Api } from '../../utils/api.jsx';
 import { base_URL } from '../../utils/constants.jsx';
 
+import Login from '../pages/login.jsx';
+import Register from '../pages/register.jsx';
+
 export const getOurIngredients = new Api(base_URL);
 
 export default function App() {
@@ -46,7 +49,9 @@ export default function App() {
         isLoading ? (<h1 className="text text_type_main-large">Загружаем заказики...</h1>) :
           <>
             <AppHeader />
-            <Main />
+            <Register />
+            {/* <Login /> */}
+            {/* <Main /> */}
             {
               !orderRequest ? (
                 isOrderDetailsPopupOpen && (
