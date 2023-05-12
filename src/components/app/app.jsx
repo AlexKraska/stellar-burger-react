@@ -20,10 +20,17 @@ export default function App() {
 
   const dispatch = useDispatch();
 
-  const isIngredientsPopupOpen = useSelector(state => state.popupState.isIngredientsPopupOpen);
-  const isOrderDetailsPopupOpen = useSelector(state => state.popupState.isOrderDetailsPopupOpen);
-  const isLoading = useSelector(state => state.ingredientsData.ingredientsRequest);
-  const orderRequest = useSelector(state => state.orderData.orderRequest);
+  const isItIngredientsPopupOpen = (state) => state.popupState.isIngredientsPopupOpen;
+  const isIngredientsPopupOpen = useSelector(isItIngredientsPopupOpen);
+
+  const isItOrderDetailsPopupOpen = (state) => state.popupState.isOrderDetailsPopupOpen;
+  const isOrderDetailsPopupOpen = useSelector(isItOrderDetailsPopupOpen);
+
+  const preLoading = (state) => state.ingredientsData.ingredientsRequest;
+  const isLoading = useSelector(preLoading);
+
+  const preOrderRequest = (state) => state.orderData.orderRequest;
+  const orderRequest = useSelector(preOrderRequest);
 
   const popupCloseHandler = () => { // закроем тот попап, который открыт
     isOrderDetailsPopupOpen ? dispatch(changeOrderDetailsPopupState(false)) : dispatch(changeIngredientsPopupState(false));
