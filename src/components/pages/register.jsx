@@ -10,7 +10,7 @@ const Register = () => {
 
     return (
         <div className={regStyles.loginBox}>
-            <h1 className={regStyles.heading}>Регистрация</h1>
+            <h1 className={`${regStyles.heading} text text_type_main-medium`}>Регистрация</h1>
             <div className={regStyles.inutBox}>
                 <Input
                     type={'text'} placeholder={'Имя'}
@@ -29,10 +29,7 @@ const Register = () => {
             <div className={regStyles.btnBox}>
                 <Button htmlType="button" type="primary" size="large">Зарегистрироваться</Button>
             </div>
-
-            <div className={regStyles.txtBox}>
-                <h2 className={regStyles.text}>Уже зарегистрированы? <a className={regStyles.textLink}>Войти</a></h2>
-            </div>
+            <h2 className={`text text_type_main-small`}>Уже зарегистрированы? <a className={regStyles.textLink}>Войти</a></h2>
         </div>
     )
 }

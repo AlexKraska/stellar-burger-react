@@ -48,10 +48,10 @@ export const CardZoneTemplate = ({ card }) => {
             <img loading='lazy' className={bis.img} src={card.image} alt={card.name} />
             <div className={bis.description}>
                 <div className={bis.info}>
-                    <p className="text text_type_main-medium">{card.price}</p>
+                    <p className="text text_type_digits-default">{card.price}</p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <h3 className={bis.cardName}>{card.name}</h3>
+                <h3 className={`${bis.cardName} text text_type_main-small mt-5`}>{card.name}</h3>
             </div>
             {
                 getIngredientCount() !== 0 ? (<Counter count={getIngredientCount()} size="default" extraClass="m-1" />) : null

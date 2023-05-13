@@ -11,7 +11,7 @@ const Login = () => {
 
     return (
         <div className={loginStyles.loginBox}>
-            <h1 className={loginStyles.heading}>Вход</h1>
+            <h1 className={`${loginStyles.heading} text text_type_main-medium`}>Вход</h1>
             <div className={loginStyles.inutBox}>
                 <EmailInput
                     placeholder={'E-mail'} onChange={e => setMailValue(e.target.value)}
@@ -27,8 +27,8 @@ const Login = () => {
             </div>
 
             <div className={loginStyles.txtBox}>
-                <h2 className={loginStyles.text}>Вы - новый пользователь? <a className={loginStyles.textLink}>Зарегистрироваться</a></h2>
-                <h2 className={loginStyles.text}>Забыли пароль? <a className={loginStyles.textLink}>Восстановить пароль</a></h2>
+                <h2 className={`text text_type_main-small`}>Вы - новый пользователь? <a className={loginStyles.textLink}>Зарегистрироваться</a></h2>
+                <h2 className={`text text_type_main-small`}>Забыли пароль? <a className={loginStyles.textLink}>Восстановить пароль</a></h2>
             </div>
         </div>
     )

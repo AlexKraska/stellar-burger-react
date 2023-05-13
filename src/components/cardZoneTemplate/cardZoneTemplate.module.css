@@ -11,5 +11,8 @@
 .info {
     display: flex;
     gap: 10px;
-    align-items: baseline;
+}
+
+.cardName {
+    align-self: center;
 }

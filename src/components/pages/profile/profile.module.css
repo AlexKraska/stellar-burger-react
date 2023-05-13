@@ -1,0 +1,43 @@
+.profileBox{
+    /* display: flex; */
+    gap: 60px;
+    display: flex;
+    position: fixed;
+    top: 30%;
+    left: 15%;
+    transform: translate(-15%, -15%);
+}
+
+.menuBox {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.menu {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inutBox {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.txtBox {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mw {
+    max-width: 340px;
+}
+
+.menuLink:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}

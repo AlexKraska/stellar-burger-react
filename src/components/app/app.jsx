@@ -16,6 +16,9 @@ import { base_URL } from '../../utils/constants.jsx';
 
 import Login from '../pages/login.jsx';
 import Register from '../pages/register.jsx';
+import ForgotPassword from '../pages/password/forgot-password.jsx';
+import ResetPassword from '../pages/password/reset-password.jsx';
+import UserProfile from '../pages/profile/profile.jsx';
 
 export const getOurIngredients = new Api(base_URL);
 
@@ -46,10 +49,13 @@ export default function App() {
   return (
     <div className={`${a.app} pb-10`}>
       { // отобразим прелоадер
-        isLoading ? (<h1 className="text text_type_main-large">Загружаем заказики...</h1>) :
+        isLoading ? (<h1 className={`${a.preloader} text text_type_main-large`}>Загружаем заказики...</h1>) :
           <>
             <AppHeader />
-            <Register />
+            <UserProfile />
+            {/* <ResetPassword /> */}
+            {/* <ForgotPassword /> */}
+            {/* <Register /> */}
             {/* <Login /> */}
             {/* <Main /> */}
             {
@@ -59,7 +65,7 @@ export default function App() {
                     <OrderDetails />
                   </Modal>
                 )
-              ) : (<h1 className="text text_type_main-large mb-20">Еще совсем чуть-чуть...</h1>)
+              ) : (<h1 className={`${a.preloader}text text_type_main-large`}>Еще совсем чуть-чуть...</h1>)
             }
             {
               isIngredientsPopupOpen && (
