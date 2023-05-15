@@ -14,11 +14,14 @@ import { changeIngredientsPopupState, changeOrderDetailsPopupState } from '../..
 import { Api } from '../../utils/api.jsx';
 import { base_URL } from '../../utils/constants.jsx';
 
-import Login from '../pages/login.jsx';
-import Register from '../pages/register.jsx';
-import ForgotPassword from '../pages/password/forgot-password.jsx';
-import ResetPassword from '../pages/password/reset-password.jsx';
-import UserProfile from '../pages/profile/profile.jsx';
+import { Routes, Route } from 'react-router-dom';
+
+import Login from '../../pages/login.jsx';
+import Register from '../../pages/register.jsx';
+import ForgotPassword from '../../pages/password/forgot-password.jsx';
+import ResetPassword from '../../pages/password/reset-password.jsx';
+import UserProfile from '../../pages/profile/profile.jsx';
+import { NotFound404 } from '../../pages/error404/notFound404.jsx';
 
 export const getOurIngredients = new Api(base_URL);
 
@@ -47,17 +50,32 @@ export default function App() {
   }, [dispatch])
 
   return (
+
     <div className={`${a.app} pb-10`}>
       { // отобразим прелоадер
         isLoading ? (<h1 className={`${a.preloader} text text_type_main-large`}>Загружаем заказики...</h1>) :
           <>
             <AppHeader />
-            <UserProfile />
-            {/* <ResetPassword /> */}
-            {/* <ForgotPassword /> */}
-            {/* <Register /> */}
-            {/* <Login /> */}
-            {/* <Main /> */}
+            <Routes>
+              <Route exact path="/" element={<Main />} />
+
+              <Route exact path="/login" element={<Login />} />
+
+              <Route exact path="/register" element={<Register />} />
+
+              <Route exact path="/forgot-password" element={<ForgotPassword />} />
+
+              <Route exact path="/reset-password" element={<ResetPassword />} />
+
+              <Route exact path="/user-profile" element={<UserProfile />} />
+
+              <Route path="*" element={<NotFound404 />} />
+            </Routes>
+
+            {/* <Route exact path="/ingredients/:id">
+              <IngredientDetails title="Детали ингредиента" />
+            </Route> */}
+
             {
               !orderRequest ? (
                 isOrderDetailsPopupOpen && (

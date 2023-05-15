@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { rootReducer } from './services/reducers/reducers.jsx';
 import App from './components/app/app.jsx';
-
+import { BrowserRouter } from 'react-router-dom';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -23,9 +23,11 @@ const root = ReactDOM.createRoot(
 
 root.render((
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>
 ));
 

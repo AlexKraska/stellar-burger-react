@@ -28,7 +28,7 @@
   justify-self: flex-start;
 }
 
-.headerLink {
+.link {
   display: flex;
   align-items: center;
   font-size: 16px;
@@ -38,11 +38,15 @@
   transition: all 0.2s ease;
 }
 
-.headerLinkActive {
+.link_active {
   color: rgba(242, 242, 243, 1);
 }
 
-.headerLink:hover {
+.link_active svg {
+  fill: white;
+}
+
+.link:hover {
   opacity: 0.6;
 }
 
