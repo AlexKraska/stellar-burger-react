@@ -18,10 +18,10 @@ const UserProfile = () => {
                             <span className={`${profileStyles.menuLink} ml-2`} to="/">Профиль</span>
                         </li>
                         <li>
-                            <span className={`ml-2 text_color_inactive`} to="/">Исторя заказов</span>
+                            <span className={`${profileStyles.menuLink} ml-2 text_color_inactive`} to="/">История заказов</span>
                         </li>
                         <li>
-                            <span className={`ml-2 text_color_inactive`} to="/">Выход</span>
+                            <span className={`${profileStyles.menuLink} ml-2 text_color_inactive`} to="/">Выход</span>
                         </li>
                     </ul>
                 </nav>
