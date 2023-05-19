@@ -11,13 +11,15 @@ function AppHeader() {
         <nav>
           <ul className={s.headerUl}>
             <li>
-              <NavLink activeClassName={s.link_active} className={`pt-5 pr-5 pb-5 ${s.link}`} exact to="/">
+              <NavLink className={({ isActive }) =>
+                isActive ? `pt-5 pr-5 pb-5 ${s.link_active}` : `pt-5 pr-5 pb-5 ${s.link}`} to="/">
                 <BurgerIcon type="secondary" />
                 <span className={`ml-2`}>Конструктор</span>
               </NavLink>
             </li>
             <li>
-              <NavLink activeClassName={s.link_active} className={`p-5 ${s.link}`} exact to="/profile/orders">
+              <NavLink className={({ isActive }) =>
+                isActive ? `pt-5 pr-5 pb-5 ${s.link_active}` : `pt-5 pr-5 pb-5 ${s.link}`} to="/profile/orders">
                 <ListIcon type="secondary" />
                 <span className={`ml-2`}>Лента заказов</span>
               </NavLink>
@@ -27,7 +29,8 @@ function AppHeader() {
         <div className={s.logo}>
           <Logo />
         </div>
-        <NavLink activeClassName={s.link_active} className={`p-5 ${s.link} ${s.room}`} to="/user-profile">
+        <NavLink className={({ isActive }) =>
+          isActive ? `pt-5 pr-5 pb-5 ${s.link_active} ${s.cabinet}` : `pt-5 pr-5 pb-5 pl-5 ${s.link} ${s.cabinet}`} to="/user-profile">
           <ProfileIcon type="secondary" />
           <span className={`ml-2`}>Личный кабинет</span>
         </NavLink>

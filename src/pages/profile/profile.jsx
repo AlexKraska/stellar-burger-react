@@ -1,6 +1,7 @@
 import React from "react";
 import profileStyles from './profile.module.css';
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink } from "react-router-dom";
 
 const UserProfile = () => {
 
@@ -15,13 +16,17 @@ const UserProfile = () => {
                 <nav>
                     <ul className={`${profileStyles.menu} text text_type_main-medium`}>
                         <li>
-                            <span className={`${profileStyles.menuLink} ml-2`} to="/">Профиль</span>
+                            <NavLink className={({ isActive }) => isActive ? `${profileStyles.menuLink_active} ml-2` : `${profileStyles.menuLink} ml-2`}>
+                                Профиль
+                            </NavLink>
                         </li>
                         <li>
-                            <span className={`${profileStyles.menuLink} ml-2 text_color_inactive`} to="/">История заказов</span>
+                            <NavLink className={({ isActive }) => isActive ? `${profileStyles.menuLink_active} ml-2` : `${profileStyles.menuLink} ml-2`}>
+                                История заказов</NavLink>
                         </li>
                         <li>
-                            <span className={`${profileStyles.menuLink} ml-2 text_color_inactive`} to="/">Выход</span>
+                            <NavLink className={({ isActive }) => isActive ? `${profileStyles.menuLink_active} ml-2` : `${profileStyles.menuLink} ml-2`}>
+                                Выход</NavLink>
                         </li>
                     </ul>
                 </nav>

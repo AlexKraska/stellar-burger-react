@@ -2,6 +2,11 @@
     position: relative;
 }
 
+.card:hover {
+    background-color:  rgb(47, 15, 47);
+}
+
+
 .description {
     display: flex;
     flex-direction: column;
@@ -15,4 +20,16 @@
 
 .cardName {
     align-self: center;
+}
+
+.hint_invisible {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.hint {
+    display: absolute;
+    visibility: visible;
+    opacity: 1;
 }

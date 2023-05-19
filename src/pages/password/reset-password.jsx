@@ -1,11 +1,27 @@
 import React from "react";
 import resetStyles from './forgot-password.module.css';
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link, useNavigate } from "react-router-dom";
+import { resetPassword } from "../../services/actions/userData.jsx";
+import { useDispatch } from "react-redux";
 
 const ResetPassword = () => {
 
-    const [letterCodeValue, setletterCodeValue] = React.useState('');
+    const [letterCodeValue, setLetterCodeValue] = React.useState('');
     const [passValue, setPassValue] = React.useState('');
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleResetPassword = (evt) => {
+        evt.preventDefault();
+        if (!letterCodeValue || !passValue) { return };
+
+        dispatch(resetPassword());
+
+        setLetterCodeValue("");
+        setPassValue("");
+        navigate('/user-profile');
+    };
 
     return (
         <div className={resetStyles.loginBox}>
@@ -17,16 +33,16 @@ const ResetPassword = () => {
                 />
                 <Input
                     type={'text'} placeholder={'Введите код из письма'}
-                    onChange={e => setletterCodeValue(e.target.value)}
+                    onChange={e => setLetterCodeValue(e.target.value)}
                     value={letterCodeValue} name={'letterCode'} size={'default'}
                 />
             </div>
             <div className={resetStyles.btnBox}>
-                <Button htmlType="button" type="primary" size="large">Сохранить</Button>
+                <Button htmlType="button" type="primary" size="large" onClick={handleResetPassword}>Сохранить</Button>
             </div>
 
             <div className={resetStyles.txtBox}>
-                <h2 className={`text text_type_main-small`}>Вспомнили пароль? <a className={resetStyles.textLink}>Войти</a></h2>
+                <h2 className={`text text_type_main-small`}>Вспомнили пароль? <Link className={resetStyles.textLink} to="/login">Войти</Link></h2>
             </div>
         </div>
     )

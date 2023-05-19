@@ -34,6 +34,7 @@ input::placeholder {
     margin-bottom: 80px;
     display: flex;
     align-items: center;
+    justify-self: center;
 }
 
 .textLink {
@@ -45,4 +46,10 @@ input::placeholder {
     text-decoration: underline;
     transition: all;
     opacity: 0.8;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
