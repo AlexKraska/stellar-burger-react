@@ -11,7 +11,8 @@ import {
     FORGOT_PASSWORD_FAILED,
     RESET_PASSWORD,
     RESET_PASSWORD_SUCCESS,
-    RESET_PASSWORD_FAILED
+    RESET_PASSWORD_FAILED,
+    LOGIN, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAILED,
 } from "../actions/userData.jsx";
 
 const defaultState = {
@@ -21,7 +22,6 @@ const defaultState = {
 
     accessToken: null,
 
-    userData: null,
     getUserDataRequest: false,
     getUserDataRequestFailed: false,
 
@@ -34,10 +34,34 @@ const defaultState = {
 
     resetPasswordRequest: false,
     resettPasswordRequestFailed: false,
+
+    loginRequest: false,
+    loginRequestFailed: false,
 }
 
 export const userDataReducer = (state = defaultState, action) => {
     switch (action.type) {
+        case LOGIN: {
+            return {
+                ...state,
+                loginRequest: true,
+                loginRequestFailed: false,
+            };
+        }
+        case LOGIN_SUCCESS: {
+            return {
+                ...state,
+                accessToken: action.payload.accessToken,
+                userData: action.payload.user,
+            };
+        }
+        case LOGIN_FAILED: {
+            return {
+                ...state,
+                loginRequest: false,
+                loginRequestFailed: true,
+            };
+        }
         case REGISTRATION: {
             return {
                 ...state,

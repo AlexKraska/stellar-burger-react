@@ -33,7 +33,7 @@ export class Api {
 
     // отправка пароля на посту юзера для дальнейшего сброса пароля
     forgotPassword(email) {
-        return fetch('https://norma.nomoreparties.space/api/password-reset', {
+        return fetch(`${this._url}password-reset`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,35 +43,52 @@ export class Api {
     }
 
     // сброс пароля
-    resetPassword() {
-        return fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
+    resetPassword(passValue, letterCodeValue) {
+        return fetch(`${this._url}password-reset/reset`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify()
+            body: JSON.stringify({
+                password: passValue,
+                token: letterCodeValue,
+            })
         }).then((res) => this._checkResponse(res));
     }
 
-    // getUserData(accessToken) {
-    //     return fetch('https://norma.nomoreparties.space/api/auth/user', {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type": "application/json;charset=utf-8",
-    //             "authorization": accessToken,
-    //         },
-    //     }).then((res) => this._checkResponse(res));
-
-    // }
+    // получение инфы юзера
+    getUserData(accessToken) {
+        return fetch(`${this._url}auth/user`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                "authorization": accessToken,
+            },
+        }).then((res) => this._checkResponse(res));
+    }
 
     // Регистрация нового пользователя
     registerUser(email, password, name) {
-        return fetch(`${this._url}auth/user/register`, {
+        return fetch(`${this._url}auth/register`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password, name })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email,
+                password,
+                name,
+            })
+        }).then((res) => this._checkResponse(res));
+    }
+
+    // Логин существующего пользователя
+    login(email, password) {
+        return fetch(`${this._url}auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email,
+                password,
+            })
         }).then((res) => this._checkResponse(res));
     }
 

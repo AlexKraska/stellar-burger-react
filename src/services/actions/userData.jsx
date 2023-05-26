@@ -50,17 +50,29 @@ export const setResetPasswordLoading = () => ({ type: RESET_PASSWORD });
 export const setResetPasswordLoadingSuccess = () => ({ type: RESET_PASSWORD_SUCCESS });
 export const setResetPasswordLoadingFailed = () => ({ type: RESET_PASSWORD_FAILED });
 
-const tokenExpiredError = 403;
-const unauthorizedError = 401;
+export const setLoginLoading = () => ({ type: LOGIN });
+export const setLoginLoadingSuccess = (token) => ({ type: LOGIN_SUCCESS, payload: token });
+export const setLoginLoadingFailed = () => ({ type: LOGIN_FAILED });
 
-export function registerNewUser(email, name, password) {
+
+const expiredError = 403; // ошибка, возникающая если токен просрочен(более 20 минут)
+const unauthorizedError = 401; // ошибка, возникающая если неавторизованный юзер
+
+// регистрируем новог юзера
+export function registerNewUser(email, password, name) {
     return (dispatch) => {
-        dispatch(setRegistrationLoading())
+        dispatch(setRegistrationLoading());
 
-        getOurIngredients.registerUser(email, name, password)
-            .then((res) => {
-                dispatch(setRegistrationLoadingSuccess(res.accessToken))
-                localStorage.setItem('refreshToken', res.refreshToken)
+        getOurIngredients.registerUser(email, password, name)
+            .then(res => {
+                if (res && res.success) {
+                    // console.log(Response)
+                    dispatch(setRegistrationLoadingSuccess(res.accessToken))
+                    localStorage.setItem('refreshToken', res.refreshToken)
+                }
+                else {
+                    dispatch(setRegistrationLoadingFailed())
+                }
             })
             .catch((err) => {
                 dispatch(setRegistrationLoadingFailed())
@@ -69,25 +81,27 @@ export function registerNewUser(email, name, password) {
     };
 };
 
-// export const getUserData = (accessToken) => {
-//     return (dispatch) => {
-//         dispatch(setGetUserDataLoading())
+// получаем нфу по юзеру
+export const getUserData = (accessToken) => {
+    return (dispatch) => {
+        dispatch(setGetUserDataLoading())
 
-//         getOurIngredients.getUserData(accessToken)
-//             .then((res) => {
-//                 dispatch(setGetUserDataLoadingSuccess(res.user))
-//             })
-//             .catch((err) => {
-//                 dispatch(setGetUserDataLoadingFailed())
+        getOurIngredients.getUserData(accessToken)
+            .then((res) => {
+                dispatch(setGetUserDataLoadingSuccess(res.user))
+            })
+            .catch((err) => {
+                dispatch(setGetUserDataLoadingFailed())
 
-//                 if (err.status === tokenExpiredError || err.status === unauthorizedError) {
-//                     dispatch(refreshToken(localStorage.getItem('refreshToken'), 'getUserData'))
-//                 }
-//                 console.log(`вышла ${err} во время полученя данных юзера`)
-//             })
-//     }
-// }
+                if (err.status === expiredError || err.status === unauthorizedError) {
+                    dispatch(refreshToken(localStorage.getItem('refreshToken'), 'getUserData'))
+                }
+                console.log(`вышла ${err} во время рефрешинга токена`)
+            })
+    }
+}
 
+// рефрешим токен
 export const refreshToken = (refreshToken) => {
     return (dispatch) => {
         dispatch(setRefreshTokenLoading())
@@ -104,13 +118,14 @@ export const refreshToken = (refreshToken) => {
     }
 }
 
+//введем свою почту чтобы получить код для сброссас пароля
 export const forgotPassword = (email) => {
     return (dispatch) => {
         dispatch(setForgotPasswordLoading())
 
         getOurIngredients.forgotPassword(email)
             .then(() => {
-                setResetPasswordLoadingSuccess()
+                setForgotPasswordLoadingSuccess()
             })
             .catch((err) => {
                 setForgotPasswordLoadingFailed()
@@ -119,17 +134,39 @@ export const forgotPassword = (email) => {
     }
 }
 
-export const resetPassword = () => {
+// получаем код из почты и меняем пароль
+export const resetPassword = (passValue, letterCodeValue) => {
     return (dispatch) => {
         dispatch(setResetPasswordLoading())
 
-        getOurIngredients.resetPassword()
+        getOurIngredients.resetPassword(passValue, letterCodeValue)
             .then(() => {
-                setForgotPasswordLoadingSuccess()
+                setResetPasswordLoadingSuccess()
             })
             .catch((err) => {
                 setResetPasswordLoadingFailed()
                 console.log(`вышла error ${err} во время сброса пароля юзера`);
+            })
+    }
+}
+
+// процесс логирования юзера
+export const loginUser = (email, password) => {
+    return (dispatch) => {
+        dispatch(setLoginLoading())
+
+        getOurIngredients.login(email, password)
+            .then((res) => {
+                if (res && res.success) {
+                    setLoginLoadingSuccess()
+                }
+                else {
+                    setLoginLoadingFailed()
+                }
+            })
+            .catch(err => {
+                setLoginLoadingFailed()
+                console.log(`вышла err ${err} во время логирования юзера`);
             })
     }
 }

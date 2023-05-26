@@ -48,3 +48,9 @@ input::placeholder {
     transition: all;
     opacity: 0.8;
 }
+
+.form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}

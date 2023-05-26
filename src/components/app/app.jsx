@@ -10,7 +10,7 @@ import Modal from '../modal/modal.jsx';
 
 import { getIngredients } from '../../services/actions/ingredientsData.jsx';
 import { changeIngredientsPopupState, changeOrderDetailsPopupState } from '../../services/actions/popup.jsx';
-// import { getUserData } from '../../services/actions/userData.jsx';
+import { getUserData } from '../../services/actions/userData.jsx';
 
 import { Api } from '../../utils/api.jsx';
 import { base_URL } from '../../utils/constants.jsx';
@@ -50,9 +50,10 @@ export default function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
-    // dispatch(getUserData(accessToken));
-  }, [dispatch]);
-  // accessToken
+    dispatch(getUserData(accessToken));
+  }, [dispatch, accessToken]);
+
+  console.log(localStorage.getItem('refreshToken'));
 
   return (
 

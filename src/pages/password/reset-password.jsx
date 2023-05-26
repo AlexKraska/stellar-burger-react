@@ -16,7 +16,7 @@ const ResetPassword = () => {
         evt.preventDefault();
         if (!letterCodeValue || !passValue) { return };
 
-        dispatch(resetPassword());
+        dispatch(resetPassword(passValue, letterCodeValue));
 
         setLetterCodeValue("");
         setPassValue("");

@@ -29,6 +29,7 @@ export function createOrder(ingredients) {
         getOurIngredients.sendIngredients(ingredients)
             .then(res => {
                 if (res && res.success) {
+                    
                     dispatch(setOrderDataLoadingSuccess(res.order.number))
                     dispatch(clearConstructor())
                 } else {
