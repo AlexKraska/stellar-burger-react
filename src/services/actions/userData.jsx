@@ -7,6 +7,7 @@ export const REGISTRATION_FAILED = 'REGISTRATION_FAILED';
 export const LOGIN = 'LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN';
 
 export const LOGOUT = 'LOGOUT';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -15,6 +16,10 @@ export const LOGOUT_FAILED = 'LOGOUT_FAILED';
 export const GET_USER_DATA = 'GET_USER_DATA';
 export const GET_USER_DATA_SUCCESS = 'GET_USER_DATA_SUCCESS';
 export const GET_USER_DATA_FAILED = 'GET_USER_DATA_FAILED';
+
+export const SEND_USER_DATA = 'SEND_USER_DATA';
+export const SEND_USER_DATA_SUCCESS = 'SEND_USER_DATA_SUCCESS';
+export const SEND_USER_DATA_FAILED = 'SEND_USER_DATA_FAILED';
 
 export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
@@ -53,6 +58,15 @@ export const setResetPasswordLoadingFailed = () => ({ type: RESET_PASSWORD_FAILE
 export const setLoginLoading = () => ({ type: LOGIN });
 export const setLoginLoadingSuccess = (token) => ({ type: LOGIN_SUCCESS, payload: token });
 export const setLoginLoadingFailed = () => ({ type: LOGIN_FAILED });
+export const setIsLoggedIn = (state) => ({ type: SET_IS_LOGGED_IN, payload: state });
+
+export const setSendUserDataLoading = () => ({ type: SEND_USER_DATA });
+export const setSendUserDataLoadingSuccess = (userData) => ({ type: SEND_USER_DATA_SUCCESS, payload: userData });
+export const setSendUserDataLoadingFailed = () => ({ type: SEND_USER_DATA_FAILED });
+
+export const setLogoutLoading = () => ({ type: LOGOUT });
+export const setLogoutLoadingSuccess = () => ({ type: LOGOUT_SUCCESS });
+export const setLogoutLoadingFailed = () => ({ type: LOGOUT_FAILED });
 
 
 const expiredError = 403; // ошибка, возникающая если токен просрочен(более 20 минут)
@@ -66,7 +80,7 @@ export function registerNewUser(email, password, name) {
         getOurIngredients.registerUser(email, password, name)
             .then(res => {
                 if (res && res.success) {
-                    // console.log(Response)
+                    
                     dispatch(setRegistrationLoadingSuccess(res.accessToken))
                     localStorage.setItem('refreshToken', res.refreshToken)
                 }
@@ -81,7 +95,7 @@ export function registerNewUser(email, password, name) {
     };
 };
 
-// получаем нфу по юзеру
+// получаем инфу по юзеру
 export const getUserData = (accessToken) => {
     return (dispatch) => {
         dispatch(setGetUserDataLoading())
@@ -101,6 +115,26 @@ export const getUserData = (accessToken) => {
     }
 }
 
+// меняем инфу по юзеру ручками
+export const sendUserData = (accessToken, name, email, password) => {
+    return (dispatch) => {
+        dispatch(setSendUserDataLoading())
+
+        getOurIngredients.sendUserData(accessToken, name, email, password)
+            .then((res) => {
+                dispatch(setSendUserDataLoadingSuccess(res.user))
+            })
+            .catch((err) => {
+
+                if (err.status === expiredError) {
+                    dispatch(refreshToken(localStorage.getItem('refreshToken')))
+                }
+                dispatch(setSendUserDataLoadingFailed())
+                console.log(`ойй, ${err} во время рефрешинга токена`)
+            })
+    }
+}
+
 // рефрешим токен
 export const refreshToken = (refreshToken) => {
     return (dispatch) => {
@@ -113,7 +147,7 @@ export const refreshToken = (refreshToken) => {
             })
             .catch((err) => {
                 dispatch(setRefreshTokenLoadingFailed())
-                console.log(`вышла error ${err} когда получали токен`);
+                console.log(`эх, error ${err} когда получали токен`);
             })
     }
 }
@@ -125,11 +159,11 @@ export const forgotPassword = (email) => {
 
         getOurIngredients.forgotPassword(email)
             .then(() => {
-                setForgotPasswordLoadingSuccess()
+                dispatch(setForgotPasswordLoadingSuccess())
             })
             .catch((err) => {
-                setForgotPasswordLoadingFailed()
-                console.log(`вышла error ${err} когда отправляли код сброса пароля на мыло`);
+                dispatch(setForgotPasswordLoadingFailed())
+                console.log(`ой, error ${err} когда отправляли код сброса пароля на мыло`);
             })
     }
 }
@@ -141,11 +175,11 @@ export const resetPassword = (passValue, letterCodeValue) => {
 
         getOurIngredients.resetPassword(passValue, letterCodeValue)
             .then(() => {
-                setResetPasswordLoadingSuccess()
+                dispatch(setResetPasswordLoadingSuccess())
             })
             .catch((err) => {
-                setResetPasswordLoadingFailed()
-                console.log(`вышла error ${err} во время сброса пароля юзера`);
+                dispatch(setResetPasswordLoadingFailed())
+                console.log(`тут error ${err} во время сброса пароля юзера`);
             })
     }
 }
@@ -157,16 +191,32 @@ export const loginUser = (email, password) => {
 
         getOurIngredients.login(email, password)
             .then((res) => {
-                if (res && res.success) {
-                    setLoginLoadingSuccess()
-                }
-                else {
-                    setLoginLoadingFailed()
-                }
+                console.log(res);
+                dispatch(setLoginLoadingSuccess(res))
+                localStorage.setItem('refreshToken', res.refreshToken)
+                // localStorage.setItem('accessToken', res.accessToken)
             })
             .catch(err => {
-                setLoginLoadingFailed()
-                console.log(`вышла err ${err} во время логирования юзера`);
+                dispatch(setLoginLoadingFailed())
+                console.log(`у нас err ${err} во время логирования юзера`);
+            })
+    }
+}
+
+// логаут юзера
+export const logout = (refreshToken) => {
+    return (dispatch) => {
+        dispatch(setLogoutLoading())
+
+        getOurIngredients.logout(refreshToken)
+            .then(() => {
+                dispatch(setLogoutLoadingSuccess())
+                dispatch(setIsLoggedIn(false))
+                localStorage.removeItem('refreshToken')
+            })
+            .catch((err) => {
+                dispatch(setLoginLoadingFailed())
+                console.log(`вышла err ${err} во время логаута`);
             })
     }
 }

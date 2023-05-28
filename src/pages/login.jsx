@@ -3,12 +3,16 @@ import loginStyles from './login.module.css';
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { loginUser } from "../services/actions/userData";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsLoggedIn } from "../services/actions/userData";
 
 const Login = () => {
 
     const [mailValue, setMailValue] = React.useState('');
     const [passValue, setPassValue] = React.useState('');
+
+    const isLoggedIn = useSelector(state => state.userData.isLoggedIn);
+    const isLoginRequestFailed = useSelector(state => state.userData.loginRequestFailed);
 
     // const inputRef = React.useRef(null);
     const dispatch = useDispatch();
@@ -19,10 +23,15 @@ const Login = () => {
 
         if (!mailValue || !passValue) { return; }
         dispatch(loginUser(mailValue, passValue));
+        dispatch(setIsLoggedIn(true));
         setMailValue("");
         setPassValue("");
-        navigate('/');
+        navigate('/user-profile');
     }
+
+    React.useEffect(() => {
+        console.log(isLoggedIn)
+    }, [isLoggedIn])
 
     return (
         <div className={loginStyles.loginBox}>

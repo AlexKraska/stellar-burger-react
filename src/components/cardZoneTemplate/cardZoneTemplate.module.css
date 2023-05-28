@@ -2,11 +2,6 @@
     position: relative;
 }
 
-.card:hover {
-    background-color:  rgb(47, 15, 47);
-}
-
-
 .description {
     display: flex;
     flex-direction: column;
@@ -32,4 +27,17 @@
     display: absolute;
     visibility: visible;
     opacity: 1;
+}
+
+.card:hover .img {
+    transition: all;
+    transform: scale(1.2);
+}
+
+.card:hover .description {
+    color: rgb(146, 6, 164);
+}
+
+.card:hover svg {
+    fill: rgb(146, 6, 164);
 }

@@ -56,17 +56,6 @@ export class Api {
         }).then((res) => this._checkResponse(res));
     }
 
-    // получение инфы юзера
-    getUserData(accessToken) {
-        return fetch(`${this._url}auth/user`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8",
-                "authorization": accessToken,
-            },
-        }).then((res) => this._checkResponse(res));
-    }
-
     // Регистрация нового пользователя
     registerUser(email, password, name) {
         return fetch(`${this._url}auth/register`, {
@@ -84,7 +73,9 @@ export class Api {
     login(email, password) {
         return fetch(`${this._url}auth/login`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 email,
                 password,
@@ -92,7 +83,34 @@ export class Api {
         }).then((res) => this._checkResponse(res));
     }
 
-    // Запрос для обновления токена
+    // получение инфы юзера
+    getUserData(token) {
+        return fetch(`${this._url}auth/user`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                "authorization": token,
+            },
+        }).then((res) => this._checkResponse(res));
+    }
+
+    // для редактирвоание данных пользователя
+    sendUserData(token, name, email, password) {
+        return fetch(`${this._url}auth/user`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8",
+                "authorization": token
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+            }),
+        }).then((res) => this._checkResponse(res));
+    }
+
+    // для обновления токена
     refreshToken(refreshToken) {
         return fetch(`${this._baseUrl}auth/token`, {
             method: "POST",
@@ -101,5 +119,18 @@ export class Api {
             },
             body: JSON.stringify({ "token": refreshToken }),
         }).then((res) => this._checkResponse(res));
+    }
+
+    // для выхода из системы
+    logout(refreshToken) {
+        return fetch(`${this._baseUrl}/auth/logout`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "token": refreshToken
+            }),
+        }).then((res) => this._requestResult(res));
     }
 };

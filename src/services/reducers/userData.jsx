@@ -1,18 +1,14 @@
 import {
-    REGISTRATION,
-    REGISTRATION_SUCCESS,
-    REGISTRATION_FAILED,
+    REGISTRATION, REGISTRATION_SUCCESS, REGISTRATION_FAILED,
     GET_USER_DATA, GET_USER_DATA_SUCCESS, GET_USER_DATA_FAILED, REFRESH_TOKEN,
-    REFRESH_TOKEN_SUCCESS,
-    REFRESH_TOKEN_FAILED,
+    REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILED,
     SET_FORGOT_PASSWORD_STATE,
-    FORGOT_PASSWORD,
-    FORGOT_PASSWORD_SUCCESS,
-    FORGOT_PASSWORD_FAILED,
-    RESET_PASSWORD,
-    RESET_PASSWORD_SUCCESS,
-    RESET_PASSWORD_FAILED,
-    LOGIN, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAILED,
+    FORGOT_PASSWORD, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILED,
+    RESET_PASSWORD, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILED,
+    LOGIN, LOGIN_SUCCESS, LOGIN_FAILED, SET_IS_LOGGED_IN,
+    SEND_USER_DATA, SEND_USER_DATA_SUCCESS, SEND_USER_DATA_FAILED,
+    LOGOUT, LOGOUT_SUCCESS, LOGOUT_FAILED,
+
 } from "../actions/userData.jsx";
 
 const defaultState = {
@@ -33,10 +29,17 @@ const defaultState = {
     isPasswordForgot: false,
 
     resetPasswordRequest: false,
-    resettPasswordRequestFailed: false,
+    resetPasswordRequestFailed: false,
 
     loginRequest: false,
     loginRequestFailed: false,
+    isLoggedIn: false,
+
+    sendUserDataRequest: false,
+    sendUserDataRequestFailed: false,
+
+    logoutRequest: false,
+    logoutRequestFailed: false,
 }
 
 export const userDataReducer = (state = defaultState, action) => {
@@ -61,6 +64,12 @@ export const userDataReducer = (state = defaultState, action) => {
                 loginRequest: false,
                 loginRequestFailed: true,
             };
+        }
+        case SET_IS_LOGGED_IN: {
+            return {
+                ...state,
+                isLoggedIn: action.payload,
+            }
         }
         case REGISTRATION: {
             return {
@@ -102,6 +111,27 @@ export const userDataReducer = (state = defaultState, action) => {
                 ...state,
                 getUserDataRequest: false,
                 getUserDataRequestFailed: true,
+            };
+        }
+        case SEND_USER_DATA: {
+            return {
+                ...state,
+                sendUserDataRequest: true,
+                sendUserDataRequestFailed: false,
+            };
+        }
+        case SEND_USER_DATA_SUCCESS: {
+            return {
+                ...state,
+                sendUserDataRequest: false,
+                userData: action.payload
+            };
+        }
+        case SEND_USER_DATA_FAILED: {
+            return {
+                ...state,
+                sendUserDataRequest: false,
+                sendUserDataRequestFailed: true,
             };
         }
         case REFRESH_TOKEN: {
@@ -161,14 +191,36 @@ export const userDataReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 resetPasswordRequest: false,
-                resettPasswordRequestFailed: false,
+                resetPasswordRequestFailed: false,
             };
         }
         case RESET_PASSWORD_FAILED: {
             return {
                 ...state,
                 resetPasswordRequest: false,
-                resettPasswordRequestFailed: true,
+                resetPasswordRequestFailed: true,
+            };
+        }
+        case LOGOUT: {
+            return {
+                ...state,
+                logoutRequest: true,
+                logoutRequestFailed: false,
+            };
+        }
+        case LOGOUT_SUCCESS: {
+            return {
+                ...state,
+                accessToken: null,
+                userData: null,
+                isLoggedIn: false,
+            };
+        }
+        case LOGOUT_FAILED: {
+            return {
+                ...state,
+                logoutRequest: false,
+                logoutRequestFailed: true,
             };
         }
         default: {
