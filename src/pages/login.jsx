@@ -11,7 +11,8 @@ const Login = () => {
     const [mailValue, setMailValue] = React.useState('');
     const [passValue, setPassValue] = React.useState('');
 
-    const isLoggedIn = useSelector(state => state.userData.isLoggedIn);
+    const loggedOrNot = (store) => store.userData.isLoggedIn;
+    const isLoggedIn = useSelector(loggedOrNot);
     const isLoginRequestFailed = useSelector(state => state.userData.loginRequestFailed);
 
     // const inputRef = React.useRef(null);
@@ -26,7 +27,7 @@ const Login = () => {
         dispatch(setIsLoggedIn(true));
         setMailValue("");
         setPassValue("");
-        navigate('/user-profile');
+        navigate('/');
     }
 
     React.useEffect(() => {

@@ -32,12 +32,19 @@
 .card:hover .img {
     transition: all;
     transform: scale(1.2);
+    cursor: grab;
 }
 
 .card:hover .description {
-    color: rgb(146, 6, 164);
+    color: rgba(133, 133, 173, 1);
 }
 
 .card:hover svg {
-    fill: rgb(146, 6, 164);
+    fill: rgba(133, 133, 173, 1);
+}
+
+.link {
+    text-decoration: none;
+    color: #fff;
+    display: contents;
 }

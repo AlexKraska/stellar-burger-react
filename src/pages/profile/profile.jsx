@@ -3,7 +3,7 @@ import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { sendUserData } from '../../services/actions/userData';
+import { sendUserData, logout } from '../../services/actions/userData';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const UserProfile = () => {
@@ -66,6 +66,11 @@ const UserProfile = () => {
         value === passValue ? setIsFormEdited(false) : setIsFormEdited(true);
     };
 
+    const handleLogout = () => {
+        const refreshToken = localStorage.getItem('refreshToken');
+        dispatch(logout(refreshToken))
+    };
+
     return (
         <div className={profileStyles.profileBox}>
 
@@ -85,7 +90,7 @@ const UserProfile = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/"
+                            <NavLink to="/login" onClick={handleLogout}
                                 className={({ isActive }) => isActive ? `${profileStyles.menuLink_active} ml-2` : `${profileStyles.menuLink} ml-2`}>
                                 Выход
                             </NavLink>

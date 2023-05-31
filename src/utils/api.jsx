@@ -112,7 +112,7 @@ export class Api {
 
     // для обновления токена
     refreshToken(refreshToken) {
-        return fetch(`${this._baseUrl}auth/token`, {
+        return fetch(`${this._url}auth/token`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -123,7 +123,7 @@ export class Api {
 
     // для выхода из системы
     logout(refreshToken) {
-        return fetch(`${this._baseUrl}/auth/logout`, {
+        return fetch(`${this._url}auth/logout`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -131,6 +131,6 @@ export class Api {
             body: JSON.stringify({
                 "token": refreshToken
             }),
-        }).then((res) => this._requestResult(res));
+        }).then((res) => this._checkResponse(res));
     }
 };

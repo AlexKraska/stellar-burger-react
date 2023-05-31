@@ -1,4 +1,6 @@
 import { getOurIngredients } from "../../components/app/app.jsx"; // экземпляр класса дляя запросов к апи
+import { getCookie } from "../../utils/cookie/getCookie.jsx";
+import { setCookie } from "../../utils/cookie/setCookie.jsx";
 
 export const REGISTRATION = 'REGISTRATION';
 export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS';
@@ -81,16 +83,16 @@ export function registerNewUser(email, password, name) {
             .then(res => {
                 if (res && res.success) {
                     
-                    dispatch(setRegistrationLoadingSuccess(res.accessToken))
-                    localStorage.setItem('refreshToken', res.refreshToken)
+                    dispatch(setRegistrationLoadingSuccess(res.accessToken));
+                    localStorage.setItem('refreshToken', res.refreshToken);
                 }
                 else {
-                    dispatch(setRegistrationLoadingFailed())
+                    dispatch(setRegistrationLoadingFailed());
                 }
             })
             .catch((err) => {
-                dispatch(setRegistrationLoadingFailed())
-                console.log(`вышла error ${err} во время регистрации новог пользователя`)
+                dispatch(setRegistrationLoadingFailed());
+                console.log(`вышла error ${err} во время регистрации новог пользователя`);
             })
     };
 };
@@ -102,15 +104,16 @@ export const getUserData = (accessToken) => {
 
         getOurIngredients.getUserData(accessToken)
             .then((res) => {
-                dispatch(setGetUserDataLoadingSuccess(res.user))
+                dispatch(setGetUserDataLoadingSuccess(res.user));
             })
             .catch((err) => {
-                dispatch(setGetUserDataLoadingFailed())
+                dispatch(setGetUserDataLoadingFailed());
 
                 if (err.status === expiredError || err.status === unauthorizedError) {
-                    dispatch(refreshToken(localStorage.getItem('refreshToken'), 'getUserData'))
+                    dispatch(refreshToken(localStorage.getItem('refreshToken'), 'getUserData'));
                 }
-                console.log(`вышла ${err} во время рефрешинга токена`)
+                console.log(`вышла ${err} во время рефрешинга токена`);
+                // getOurIngredients.refreshToken(getCookie('refreshToken'))
             })
     }
 }
@@ -118,19 +121,19 @@ export const getUserData = (accessToken) => {
 // меняем инфу по юзеру ручками
 export const sendUserData = (accessToken, name, email, password) => {
     return (dispatch) => {
-        dispatch(setSendUserDataLoading())
+        dispatch(setSendUserDataLoading());
 
         getOurIngredients.sendUserData(accessToken, name, email, password)
             .then((res) => {
-                dispatch(setSendUserDataLoadingSuccess(res.user))
+                dispatch(setSendUserDataLoadingSuccess(res.user));
             })
             .catch((err) => {
 
                 if (err.status === expiredError) {
-                    dispatch(refreshToken(localStorage.getItem('refreshToken')))
+                    dispatch(refreshToken(localStorage.getItem('refreshToken')));
                 }
-                dispatch(setSendUserDataLoadingFailed())
-                console.log(`ойй, ${err} во время рефрешинга токена`)
+                dispatch(setSendUserDataLoadingFailed());
+                console.log(`ойй, ${err} во время рефрешинга токена`);
             })
     }
 }
@@ -142,11 +145,12 @@ export const refreshToken = (refreshToken) => {
 
         getOurIngredients.refreshToken(refreshToken)
             .then((res) => {
-                localStorage.setItem('refreshToken', res.refreshToken)
-                dispatch(setRefreshTokenLoadingSuccess(res.accessToken))
+                localStorage.setItem('refreshToken', res.refreshToken);
+                dispatch(setRefreshTokenLoadingSuccess(res.accessToken));
+                setCookie('accessToken', res.accessToken);
             })
             .catch((err) => {
-                dispatch(setRefreshTokenLoadingFailed())
+                dispatch(setRefreshTokenLoadingFailed());
                 console.log(`эх, error ${err} когда получали токен`);
             })
     }
@@ -159,10 +163,10 @@ export const forgotPassword = (email) => {
 
         getOurIngredients.forgotPassword(email)
             .then(() => {
-                dispatch(setForgotPasswordLoadingSuccess())
+                dispatch(setForgotPasswordLoadingSuccess());
             })
             .catch((err) => {
-                dispatch(setForgotPasswordLoadingFailed())
+                dispatch(setForgotPasswordLoadingFailed());
                 console.log(`ой, error ${err} когда отправляли код сброса пароля на мыло`);
             })
     }
@@ -171,14 +175,14 @@ export const forgotPassword = (email) => {
 // получаем код из почты и меняем пароль
 export const resetPassword = (passValue, letterCodeValue) => {
     return (dispatch) => {
-        dispatch(setResetPasswordLoading())
+        dispatch(setResetPasswordLoading());
 
         getOurIngredients.resetPassword(passValue, letterCodeValue)
             .then(() => {
-                dispatch(setResetPasswordLoadingSuccess())
+                dispatch(setResetPasswordLoadingSuccess());
             })
             .catch((err) => {
-                dispatch(setResetPasswordLoadingFailed())
+                dispatch(setResetPasswordLoadingFailed());
                 console.log(`тут error ${err} во время сброса пароля юзера`);
             })
     }
@@ -187,17 +191,17 @@ export const resetPassword = (passValue, letterCodeValue) => {
 // процесс логирования юзера
 export const loginUser = (email, password) => {
     return (dispatch) => {
-        dispatch(setLoginLoading())
+        dispatch(setLoginLoading());
 
         getOurIngredients.login(email, password)
             .then((res) => {
                 console.log(res);
-                dispatch(setLoginLoadingSuccess(res))
-                localStorage.setItem('refreshToken', res.refreshToken)
-                // localStorage.setItem('accessToken', res.accessToken)
+                dispatch(setLoginLoadingSuccess(res));
+                localStorage.setItem('refreshToken', res.refreshToken);
+                setCookie('accessToken', res.accessToken);
             })
             .catch(err => {
-                dispatch(setLoginLoadingFailed())
+                dispatch(setLoginLoadingFailed());
                 console.log(`у нас err ${err} во время логирования юзера`);
             })
     }
@@ -206,16 +210,16 @@ export const loginUser = (email, password) => {
 // логаут юзера
 export const logout = (refreshToken) => {
     return (dispatch) => {
-        dispatch(setLogoutLoading())
+        dispatch(setLogoutLoading());
 
         getOurIngredients.logout(refreshToken)
             .then(() => {
-                dispatch(setLogoutLoadingSuccess())
-                dispatch(setIsLoggedIn(false))
-                localStorage.removeItem('refreshToken')
+                dispatch(setLogoutLoadingSuccess());
+                dispatch(setIsLoggedIn(false));
+                localStorage.removeItem('refreshToken');
             })
             .catch((err) => {
-                dispatch(setLoginLoadingFailed())
+                dispatch(setLoginLoadingFailed());
                 console.log(`вышла err ${err} во время логаута`);
             })
     }
