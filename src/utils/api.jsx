@@ -117,7 +117,8 @@ export class Api {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ "token": refreshToken }),
+            body:
+                JSON.stringify({ "token": refreshToken }),
         }).then((res) => this._checkResponse(res));
     }
 

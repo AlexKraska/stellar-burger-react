@@ -35,7 +35,7 @@ export default function App() {
   const location = useLocation();
   const fromPage = location.state?.from?.pathname || '/';
 
-  const state = location.state && location.state.background;
+  const background = location.state && location.state.background;
   const navigate = useNavigate();
 
   const loggedOrNot = (store) => store.userData.isLoggedIn;
@@ -57,12 +57,13 @@ export default function App() {
   const accessToken = useSelector(tokenForAccess);
 
   const popupCloseHandler = () => { // закроем тот попап, который открыт
-    isOrderDetailsPopupOpen ? dispatch(changeOrderDetailsPopupState(false)) : dispatch(changeIngredientsPopupState(false));
+    isOrderDetailsPopupOpen ? dispatch(changeOrderDetailsPopupState(false)) : (dispatch(changeIngredientsPopupState(false)) && background && navigate('/'));
   }
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, [dispatch]);
+    dispatch(getUserData(accessToken))
+  }, [dispatch, accessToken]);
 
   return (
 
@@ -71,7 +72,7 @@ export default function App() {
         isLoading ? (<h1 className={`${a.preloader} text text_type_main-large`}>Загружаем заказики...</h1>) :
           <>
             <AppHeader />
-            <Routes location={state || location}>
+            <Routes location={background || location}>
               <Route exact path="/" element={<Main />} />
 
               <Route exact path="/login" element={isLoggedIn ? (<Navigate to={fromPage} />) : (<Login />)} />
@@ -86,37 +87,31 @@ export default function App() {
 
               <Route path="*" element={<NotFound404 />} />
 
-              <Route path='/ingredients/:id' element={<IngredientDetails />} />
-              {/* <Route path='/ingredients/:id' element={<IngredientDetails title="Детали ингредиента" />} /> */}
+              {/* <Route exact path='/ingredients/:id' element={<IngredientDetails />} /> */}
+
             </Routes>
 
             {
               !orderRequest ? (
                 isOrderDetailsPopupOpen && (
-                  <Modal popupCloseHandler={popupCloseHandler}>
-                    <OrderDetails />
-                  </Modal>
+                  <Modal popupCloseHandler={popupCloseHandler} children={<OrderDetails />} />
                 )
               ) : (<h1 className={`${a.preloader}text text_type_main-large`}>Еще совсем чуть-чуть...</h1>)
             }
-            {/* {
-              isIngredientsPopupOpen && (
-                <Modal title='Детали ингредиента' popupCloseHandler={popupCloseHandler}>
-                  <IngredientDetails  />
-                </Modal>
-              )
-            } */}
-            {
-              state &&
+            {background && (
               <Routes>
-                <Route path='/ingredients/:id' element={
-                  <Modal popupCloseHandler={popupCloseHandler} title={"Детали ингредиента"} >
-                    <IngredientDetails />
-                  </Modal>
-                } />
+                <Route
+                  exact path="/ingredients/:id"
+                  element={
+                    <Modal
+                      popupCloseHandler={popupCloseHandler}
+                      title="Детали ингредиента"
+                      children={<IngredientDetails />}
+                    />
+                  }
+                />
               </Routes>
-            }
-
+            )}
           </>
       }
     </div >

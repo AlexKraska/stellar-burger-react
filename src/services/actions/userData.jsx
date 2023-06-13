@@ -71,8 +71,8 @@ export const setLogoutLoadingSuccess = () => ({ type: LOGOUT_SUCCESS });
 export const setLogoutLoadingFailed = () => ({ type: LOGOUT_FAILED });
 
 
-const expiredError = 403; // ошибка, возникающая если токен просрочен(более 20 минут)
-const unauthorizedError = 401; // ошибка, возникающая если неавторизованный юзер
+const expiredError = `Ну ерундистика какая-то: 403`; // ошибка, возникающая если токен просрочен(более 20 минут)
+const unauthorizedError = `вышла Ну ерундистика какая-то: 401 во время получения данных юзера`; // ошибка, возникающая если неавторизованный юзер
 
 // регистрируем новог юзера
 export function registerNewUser(email, password, name) {
@@ -80,9 +80,9 @@ export function registerNewUser(email, password, name) {
         dispatch(setRegistrationLoading());
 
         getOurIngredients.registerUser(email, password, name)
-            .then(res => {
+            .then((res) => {
                 if (res && res.success) {
-                    
+
                     dispatch(setRegistrationLoadingSuccess(res.accessToken));
                     localStorage.setItem('refreshToken', res.refreshToken);
                 }
@@ -92,7 +92,7 @@ export function registerNewUser(email, password, name) {
             })
             .catch((err) => {
                 dispatch(setRegistrationLoadingFailed());
-                console.log(`вышла error ${err} во время регистрации новог пользователя`);
+                console.log(`вышла error ${err} во время регистрации нового юзера`);
             })
     };
 };
@@ -104,16 +104,28 @@ export const getUserData = (accessToken) => {
 
         getOurIngredients.getUserData(accessToken)
             .then((res) => {
-                dispatch(setGetUserDataLoadingSuccess(res.user));
+                if (res && res.success) {
+
+                    dispatch(setGetUserDataLoadingSuccess(res.user));
+                }
+                else {
+                    dispatch(setGetUserDataLoadingFailed());
+                }
             })
             .catch((err) => {
+
                 dispatch(setGetUserDataLoadingFailed());
 
-                if (err.status === expiredError || err.status === unauthorizedError) {
-                    dispatch(refreshToken(localStorage.getItem('refreshToken'), 'getUserData'));
-                }
-                console.log(`вышла ${err} во время рефрешинга токена`);
-                // getOurIngredients.refreshToken(getCookie('refreshToken'))
+                console.log(localStorage.getItem('refreshToken'));
+
+                console.log(err === expiredError || err === unauthorizedError);
+
+                // if (err === expiredError || err === unauthorizedError) {
+                    
+                    dispatch(refreshToken(localStorage.getItem('refreshToken')));
+                // }
+                // , 'getUserData'
+                console.log(`вышла ${err} во время получения данных юзера`);
             })
     }
 }
@@ -128,12 +140,11 @@ export const sendUserData = (accessToken, name, email, password) => {
                 dispatch(setSendUserDataLoadingSuccess(res.user));
             })
             .catch((err) => {
-
                 if (err.status === expiredError) {
                     dispatch(refreshToken(localStorage.getItem('refreshToken')));
                 }
                 dispatch(setSendUserDataLoadingFailed());
-                console.log(`ойй, ${err} во время рефрешинга токена`);
+                console.log(`ойй, ${err} во время отправки данных о юзере`);
             })
     }
 }
@@ -145,13 +156,13 @@ export const refreshToken = (refreshToken) => {
 
         getOurIngredients.refreshToken(refreshToken)
             .then((res) => {
+                console.log(res.refreshToken);
                 localStorage.setItem('refreshToken', res.refreshToken);
                 dispatch(setRefreshTokenLoadingSuccess(res.accessToken));
-                setCookie('accessToken', res.accessToken);
             })
             .catch((err) => {
                 dispatch(setRefreshTokenLoadingFailed());
-                console.log(`эх, error ${err} когда получали токен`);
+                console.log(`эх, error ${err} когда refresh токен`);
             })
     }
 }
@@ -196,13 +207,18 @@ export const loginUser = (email, password) => {
         getOurIngredients.login(email, password)
             .then((res) => {
                 console.log(res);
-                dispatch(setLoginLoadingSuccess(res));
                 localStorage.setItem('refreshToken', res.refreshToken);
-                setCookie('accessToken', res.accessToken);
+                dispatch(setLoginLoadingSuccess(res));
+                dispatch(setIsLoggedIn(true));
             })
             .catch(err => {
                 dispatch(setLoginLoadingFailed());
+                dispatch(setIsLoggedIn(false));
                 console.log(`у нас err ${err} во время логирования юзера`);
+
+                if (err.status === expiredError || err.status === unauthorizedError) {
+                    dispatch(refreshToken(localStorage.getItem('refreshToken'), 'getUserData'))
+                }
             })
     }
 }

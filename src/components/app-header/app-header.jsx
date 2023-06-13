@@ -1,9 +1,16 @@
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import s from './app-header.module.css';
 
 function AppHeader() {
+
+  const navigate = useNavigate();
+
+  const logoClickHandler = (e) => {
+    navigate('/');
+  };
 
   return (
     <header className={`${s.header} text text_type_main-default pt-4 pb-4`}>
@@ -26,7 +33,7 @@ function AppHeader() {
             </li>
           </ul>
         </nav>
-        <div className={s.logo}>
+        <div onClick={logoClickHandler} className={s.logo}>
           <Logo />
         </div>
         <NavLink className={({ isActive }) =>

@@ -27,15 +27,18 @@ const ForgotPassword = () => {
     return (
         <div className={forgotStyles.loginBox}>
             <h1 className={`${forgotStyles.heading} text text_type_main-medium`}>Восстановление пароля</h1>
-            <div className={forgotStyles.inutBox}>
-                <EmailInput
-                    placeholder={'Укажите E-mail'} onChange={e => setMailValue(e.target.value)}
-                    value={mailValue} name={'name'} size={'default'} isIcon={false}
-                />
-            </div>
-            <div className={forgotStyles.btnBox}>
-                <Button onClick={handleSendMailPassForgot} htmlType="button" type="primary" size="large">Воссстановить</Button>
-            </div>
+
+            <form onSubmit={handleSendMailPassForgot} className={forgotStyles.form}>
+                <div className={forgotStyles.inutBox}>
+                    <EmailInput
+                        placeholder={'Укажите E-mail'} onChange={e => setMailValue(e.target.value)}
+                        value={mailValue} name={'name'} size={'default'} isIcon={false}
+                    />
+                </div>
+                <div className={forgotStyles.btnBox}>
+                    <Button htmlType="submit" type="primary" size="large">Воссстановить</Button>
+                </div>
+            </form>
 
             <div className={forgotStyles.txtBox}>
                 <h2 className={`text text_type_main-small`}>Вспомнили пароль? <Link className={forgotStyles.textLink} to="/login">Войти</Link></h2>

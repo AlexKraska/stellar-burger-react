@@ -32,7 +32,7 @@ export const Order = () => {
         } else {
             navigate('/login');
         }
-    }
+    };
 
     const ingredientsPrice = ingredientsInConstructor.reduce((sum, elem) => {
         return elem.card.price + sum;
@@ -55,7 +55,7 @@ export const Order = () => {
                 </div>
 
             </div>
-            <Button onClick={() => handleOrderButtonClick()} htmlType="button" type="primary" size="medium">Оформить заказ</Button>
+            {buns !== null ? (<Button onClick={() => handleOrderButtonClick()} htmlType="button" type="primary" size="medium">Оформить заказ</Button>) : null}
         </div>
     )
-}  
+}

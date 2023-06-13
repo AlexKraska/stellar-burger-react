@@ -13,6 +13,8 @@ const UserProfile = () => {
     const [loginValue, setLoginValue] = useState('');
     const [passValue, setPassValue] = useState('');
 
+    const mailValueFromStorage = localStorage.getItem('mailValue');
+
     const [isFormEdited, setIsFormEdited] = useState(false);
 
     const nameRef = useRef(null);

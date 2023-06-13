@@ -14,8 +14,7 @@ export default function Modal({ children, title = '', popupCloseHandler }) {
     const navigate = useNavigate();
 
     const onModalClose = () => {
-        popupCloseHandler(false)
-        navigate('/');
+        popupCloseHandler(false);
     }
 
     useEffect(() => {

@@ -19,4 +19,4 @@ export function setCookie(name, value, props) {
         }
     }
     document.cookie = updatedCookie;
-}
+};

@@ -93,7 +93,7 @@ function BurgerConstructor() {
                         buns !== null ? <ConstructorElement
                             type='bottom'
                             isLocked={true}
-                            text={buns.name + ' (верх)'}
+                            text={buns.name + ' (низ)'}
                             price={buns.price}
                             thumbnail={buns.image}
                             handleClose={() => deleteIngredient()} />

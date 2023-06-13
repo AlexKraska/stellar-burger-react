@@ -2,7 +2,7 @@ import React from "react";
 import loginStyles from './login.module.css';
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { loginUser } from "../services/actions/userData";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsLoggedIn } from "../services/actions/userData";
 
@@ -13,26 +13,37 @@ const Login = () => {
 
     const loggedOrNot = (store) => store.userData.isLoggedIn;
     const isLoggedIn = useSelector(loggedOrNot);
-    const isLoginRequestFailed = useSelector(state => state.userData.loginRequestFailed);
 
-    // const inputRef = React.useRef(null);
+    const dataOfUser = (state) => state.userData.userData;
+    const userData = useSelector(dataOfUser);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogin = (evt) => {
         evt.preventDefault();
 
         if (!mailValue || !passValue) { return; }
         dispatch(loginUser(mailValue, passValue));
-        dispatch(setIsLoggedIn(true));
+        localStorage.setItem('mailValue', mailValue);
+
         setMailValue("");
         setPassValue("");
-        navigate('/');
-    }
+    };
 
     React.useEffect(() => {
-        console.log(isLoggedIn)
-    }, [isLoggedIn])
+        if (userData) {
+            (location.state && location.state.previousLocation) ? navigate(location.state.previousLocation.pathname) : navigate('/');
+        }
+    }, [userData, navigate, location]);
+
+    React.useEffect(() => {
+        if (localStorage.refreshToken) {
+            dispatch(setIsLoggedIn(true));
+            // navigate(location.state.previousLocation);
+        }
+    }, []);
 
     return (
         <div className={loginStyles.loginBox}>
