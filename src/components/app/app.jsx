@@ -87,7 +87,7 @@ export default function App() {
 
               <Route path="*" element={<NotFound404 />} />
 
-              {/* <Route exact path='/ingredients/:id' element={<IngredientDetails />} /> */}
+              <Route exact path='/ingredients/:id' element={<IngredientDetails />} />
 
             </Routes>
 
