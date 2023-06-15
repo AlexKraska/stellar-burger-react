@@ -1,0 +1,72 @@
+.profileBox {
+    /* display: flex; */
+    gap: 60px;
+    display: flex;
+    position: fixed;
+    top: 30%;
+    left: 15%;
+    transform: translate(-15%, -15%);
+}
+
+.menuBox {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.menu {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inutBox {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.txtBox {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mw {
+    max-width: 340px;
+}
+
+.menuLink {
+    text-decoration: none;
+    font-family: inherit;
+    color: rgba(133, 133, 173, 1);
+}
+
+.menuLink:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.menuLink_active {
+    font-family: inherit;
+    color: inherit;
+    color: beige;
+    text-decoration: none;
+}
+
+.btnBox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.hint {
+    color: rgba(133, 133, 173, 1);
+}
+
+.hint:hover {
+    opacity: 0.7;
+    transition: all;
+    transform: scale(1.2);
+}

@@ -1,0 +1,50 @@
+.card {
+    position: relative;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info {
+    display: flex;
+    gap: 10px;
+}
+
+.cardName {
+    align-self: center;
+}
+
+.hint_invisible {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.hint {
+    display: absolute;
+    visibility: visible;
+    opacity: 1;
+}
+
+.card:hover .img {
+    transition: all;
+    transform: scale(1.2);
+    cursor: grab;
+}
+
+.card:hover .description {
+    color: rgba(133, 133, 173, 1);
+}
+
+.card:hover svg {
+    fill: rgba(133, 133, 173, 1);
+}
+
+.link {
+    text-decoration: none;
+    color: #fff;
+    display: contents;
+}

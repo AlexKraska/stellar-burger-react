@@ -1,0 +1,24 @@
+.overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*в макете не увидел - сделал по вкусу*/
+    background-color: rgba(0, 0, 0, 1);
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    /*убрав оверлей под модалку решил вопрос с затемением и убралось закрытие по нажатию на сам попап - ура*/
+    z-index: 998;
+    display: flex;
+    transition: visibility .5s linear;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.overlay_visible {
+    visibility: visible;
+    opacity: 0.7;
+    z-index: 0;
+}
